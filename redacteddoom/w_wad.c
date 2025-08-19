@@ -148,6 +148,7 @@ void W_AddFile (char *filename)
     if (fopen(fullpath.data,&handle) != FS_RESULT_SUCCESS)
     {
         printf (" couldn't open %s\n",filename);
+        free(fullpath.data,fullpath.mem_length);
         return;
     }
 
