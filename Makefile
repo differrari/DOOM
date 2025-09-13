@@ -13,7 +13,8 @@ EXEC_NAME ?= DOOM.elf
 STDINC ?= $(OS_PATH)/shared/
 STDLIB ?= $(OS_PATH)/shared/libshared.a
 CFLAGS ?= -ffreestanding -nostdlib -std=c99 -I$(STDINC) -O0
-FS_PATH ?= $(OS_PATH)/fs/redos/user/$(EXEC_NAME)
+FS_PATH ?= $(OS_PATH)/fs/redos/user
+FS_EXEC_PATH ?= $(FS_PATH)/$(EXEC_NAME)
 
 C_SOURCE ?= $(shell find redacteddoom/*.c)
 OBJ ?= $(C_SOURCE:%.c=%.o)
@@ -29,7 +30,9 @@ $(EXEC_NAME): $(OBJ)
 all: $(EXEC_NAME)
 
 run: all
-	cp $(EXEC_NAME) $(FS_PATH)
+# 	cp DOOM.WAD $(FS_PATH)/DOOM.WAD
+	cp doom1.wad $(FS_PATH)/doom1.wad
+	cp $(EXEC_NAME) $(FS_EXEC_PATH)
 	(cd $(OS_PATH); ./createfs; ./run_virt)
 
 clean: 	
