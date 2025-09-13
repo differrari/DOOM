@@ -1,7 +1,7 @@
 #include <conio.h>
-#include <stdio.h>
+#include "syscalls/syscalls.h"
 #include <stdlib.h>
-#include <string.h>
+#include "std/string.h"
 #include <conio.h>
 #include <ctype.h>
 #include <dos.h>

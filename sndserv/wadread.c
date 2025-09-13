@@ -42,8 +42,8 @@ static const char rcsid[] = "$Id: wadread.c,v 1.3 1997/01/30 19:54:23 b1 Exp $";
 #include <malloc.h>
 #include <fcntl.h>
 #include <sys/stat.h>
-#include <stdio.h>
-#include <string.h>
+#include "syscalls/syscalls.h"
+#include "std/string.h"
 #include <stdlib.h>
 #include <ctype.h>
 #include <unistd.h>

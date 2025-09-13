@@ -42,7 +42,7 @@ static const char rcsid[] = "$Id: soundsrv.c,v 1.3 1997/01/29 22:40:44 b1 Exp $"
 
 #include <math.h>
 #include <sys/types.h>
-#include <stdio.h>
+#include "syscalls/syscalls.h"
 #include <fcntl.h>
 #include <sys/ioctl.h>
 #include <unistd.h>

@@ -1,7 +1,7 @@
-#include <stdio.h>
+#include "syscalls/syscalls.h"
 #include <io.h>
 #include <stdlib.h>
-#include <string.h>
+#include "std/string.h"
 #include <process.h>
 #include <dos.h>
 #include "doomnet.h"
