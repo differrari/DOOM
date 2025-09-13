@@ -40,8 +40,6 @@ main
 { 
     myargc = argc; 
     myargv = argv; 
-
-    printf("DOOM LOADED");
  
     D_DoomMain (); 
 

@@ -2,3 +2,6 @@
 *.o
 compile_commands.json
 dump
+DOOM.elf
+.gitignore
+doom1.wad

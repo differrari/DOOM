@@ -58,18 +58,10 @@ void strupr (char* s)
     while (*s) { *s = toupper(*s); s++; }
 }
 
-int filelength (int handle) 
+int filelength (file handle) 
 { 
-    // struct stat	fileinfo;
-    
-    // if (fstat (handle,&fileinfo) == -1)
-	// I_Error ("Error fstating");
-
-    // return fileinfo.st_size;
-    NOT_IMPLEMENTED
-    return 0;
+    return handle.size;
 }
-
 
 void
 ExtractFileBase
@@ -129,90 +121,102 @@ char*			reloadname;
 
 void W_AddFile (char *filename)
 {
-    // wadinfo_t		header;
-    // lumpinfo_t*		lump_p;
-    // unsigned		i;
-    // int			handle;
-    // int			length;
-    // int			startlump;
-    // filelump_t*		fileinfo;
-    // filelump_t		singleinfo;
-    // int			storehandle;
+    wadinfo_t		header;
+    lumpinfo_t*		lump_p;
+    unsigned		i;
+    file			handle;
+    int			length;
+    int			startlump;
+    filelump_t*		fileinfo;
+    filelump_t		singleinfo;
+    file			storehandle;
     
-    // // open the file and add to directory
+    // open the file and add to directory
 
-    // // handle reload indicator.
-    // if (filename[0] == '~')
-    // {
-	// filename++;
-	// reloadname = filename;
-	// reloadlump = numlumps;
-    // }
-		
-    // if ( (handle = open (filename,O_RDONLY | O_BINARY)) == -1)
-    // {
-	// printf (" couldn't open %s\n",filename);
-	// return;
-    // }
+    // handle reload indicator.
+    if (filename[0] == '~')
+    {
+	filename++;
+	reloadname = filename;
+	reloadlump = numlumps;
+    }
 
-    // printf (" adding %s\n",filename);
-    // startlump = numlumps;
+    printf("Filename %s+",filename);
+
+    string fullpath = string_format("/boot/redos/user/%s",filename);
+
+    if (fopen(fullpath.data,&handle) != FS_RESULT_SUCCESS)
+    {
+        printf (" couldn't open %s\n",filename);
+        return;
+    }
+
+    free(fullpath.data,fullpath.mem_length);
+
+    printf (" adding %s\n",filename);
+    startlump = numlumps;
 	
-    // if (strcmp (filename+strlen(filename,0)-3 , "wad", true) )
-    // {
-	// // single lump file
-	// fileinfo = &singleinfo;
-	// singleinfo.filepos = 0;
-	// singleinfo.size = LONG(filelength(handle));
-	// ExtractFileBase (filename, singleinfo.name);
-	// numlumps++;
-    // }
-    // else 
-    // {
-	// // WAD file
-	// read (handle, &header, sizeof(header));
-	// if (strncmp(header.identification,"IWAD",4))
-	// {
-	//     // Homebrew levels?
-	//     if (strncmp(header.identification,"PWAD",4))
-	//     {
-	// 	I_Error ("Wad file %s doesn't have IWAD "
-	// 		 "or PWAD id\n", filename);
-	//     }
+    if (strcmp (filename+strlen(filename,0)-3 , "wad", true) )
+    {
+	// single lump file
+	fileinfo = &singleinfo;
+	singleinfo.filepos = 0;
+	singleinfo.size = LONG(handle.size);
+	ExtractFileBase (filename, singleinfo.name);
+	numlumps++;
+    }
+    else 
+    {
+	// WAD file
+	fread (&handle, (char*)&header, sizeof(header));
+    string identification = string_from_literal_length(header.identification, 4);
+	if (strcmp(identification.data, "IWAD", true))
+	{
+	    // Homebrew levels?
+	    if (strcmp(identification.data, "PWAD", true))
+	    {
+		    I_Error ("Wad file %s doesn't have IWAD or PWAD id\n", filename);
+	    }
 	    
-	//     // ???modifiedgame = true;		
-	// }
-	// header.numlumps = LONG(header.numlumps);
-	// header.infotableofs = LONG(header.infotableofs);
-	// length = header.numlumps*sizeof(filelump_t);
-	// fileinfo = alloca (length);
-	// lseek (handle, header.infotableofs, SEEK_SET);
-	// read (handle, fileinfo, length);
-	// numlumps += header.numlumps;
-    // }
+	    // ???modifiedgame = true;		
+	}
+    free(identification.data,identification.mem_length);
+	header.numlumps = LONG(header.numlumps);
+    printf("Header info table ofs %i",header.infotableofs);
+	header.infotableofs = LONG(header.infotableofs);
+	length = header.numlumps*sizeof(filelump_t);
+	fileinfo = (filelump_t*)alloca (length);
+	seek (&handle, header.infotableofs, SEEK_ABSOLUTE);
+    printf("Cursor %i",handle.cursor);
+	fread (&handle, (char*)fileinfo, length);
+	numlumps += header.numlumps;
+    printf("NUM LUMPS %i", numlumps);
+    for (int i = 0; i < 64; i++)
+        printf("%x",((uint8_t*)fileinfo)[i]);
+    }
 
     
-    // // Fill in lumpinfo
-    // lumpinfo = realloc (lumpinfo, numlumps*sizeof(lumpinfo_t));
+    // Fill in lumpinfo
+    lumpinfo = (lumpinfo_t*)realloc ((uintptr_t)lumpinfo, sizeof(*lumpinfo), numlumps*sizeof(lumpinfo_t));
 
-    // if (!lumpinfo)
-	// I_Error ("Couldn't realloc lumpinfo");
+    if (!lumpinfo)
+	I_Error ("Couldn't realloc lumpinfo");
 
-    // lump_p = &lumpinfo[startlump];
+    lump_p = &lumpinfo[startlump];
 	
-    // storehandle = reloadname ? -1 : handle;
+    storehandle = reloadname ? (file){} : handle;
 	
-    // for (i=startlump ; i<numlumps ; i++,lump_p++, fileinfo++)
-    // {
-	// lump_p->handle = storehandle;
-	// lump_p->position = LONG(fileinfo->filepos);
-	// lump_p->size = LONG(fileinfo->size);
-	// strncpy (lump_p->name, fileinfo->name, 8);
-    // }
+    for (i=startlump ; i<numlumps ; i++,lump_p++, fileinfo++)
+    {
+        if (fileinfo->name[0] == 'S') printl(fileinfo->name);
+	lump_p->handle = storehandle;
+	lump_p->position = LONG(fileinfo->filepos);
+	lump_p->size = LONG(fileinfo->size);
+	strncpy (lump_p->name, fileinfo->name, 8);
+    }
 	
     // if (reloadname)
 	// close (handle);
-    NOT_IMPLEMENTED
 }
 
 
@@ -424,37 +428,35 @@ W_ReadLump
 ( int		lump,
   void*		dest )
 {
-    // int		c;
-    // lumpinfo_t*	l;
-    // int		handle;
+    int		c;
+    lumpinfo_t*	l;
+    file		handle;
 	
-    // if (lump >= numlumps)
-	// I_Error ("W_ReadLump: %i >= numlumps",lump);
+    if (lump >= numlumps)
+	I_Error ("W_ReadLump: %i >= numlumps",lump);
 
-    // l = lumpinfo+lump;
+    l = lumpinfo+lump;
 	
-    // // ??? I_BeginRead ();
+    // ??? I_BeginRead ();
 	
-    // if (l->handle == -1)
-    // {
-	// // reloadable file, so use open / read / close
-	// if ( (handle = open (reloadname,O_RDONLY | O_BINARY)) == -1)
-	//     I_Error ("W_ReadLump: couldn't open %s",reloadname);
-    // }
-    // else
-	// handle = l->handle;
+    if (l->handle.id == 0)
+    {
+	// reloadable file, so use open / read / close
+	if ( (fopen (reloadname,&handle)) != FS_RESULT_SUCCESS)
+	    I_Error ("W_ReadLump: couldn't open %s",reloadname);
+    }
+    else
+	    handle = l->handle;
 		
-    // lseek (handle, l->position, SEEK_SET);
-    // c = read (handle, dest, l->size);
+    seek (&handle, l->position, SEEK_ABSOLUTE);
+    c = fread (&handle, dest, l->size);
 
-    // if (c < l->size)
-	// I_Error ("W_ReadLump: only read %i of %i on lump %i",
-	// 	 c,l->size,lump);	
+    if (c < l->size)
+	I_Error ("W_ReadLump: only read %i of %i on lump %i",
+		 c,l->size,lump);	
 
     // if (l->handle == -1)
 	// close (handle);
-
-    NOT_IMPLEMENTED
     // ??? I_EndRead ();
 }
 

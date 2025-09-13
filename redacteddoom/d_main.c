@@ -547,8 +547,8 @@ void D_AddFile (char *file)
 void IdentifyVersion (void)
 {
 
-    char*	doom1wad;
-    char*	doomwad;
+    char*	doom1wad = "doom1.wad";
+    char*	doomwad = "DOOM.WAD";
     char*	doomuwad;
     char*	doom2wad;
 
@@ -601,9 +601,6 @@ void IdentifyVersion (void)
     gamemode = shareware;
 	D_AddFile (doom1wad);
 
-    // We don't abort. Let's see what the PWAD contains.
-    //exit(1);
-    //I_Error ("Game mode indeterminate\n");
 }
 
 //
