@@ -190,9 +190,6 @@ void W_AddFile (char *filename)
     printf("Cursor %i",handle.cursor);
 	fread (&handle, (char*)fileinfo, length);
 	numlumps += header.numlumps;
-    printf("NUM LUMPS %i", numlumps);
-    for (int i = 0; i < 64; i++)
-        printf("%x",((uint8_t*)fileinfo)[i]);
     }
 
     
@@ -208,8 +205,7 @@ void W_AddFile (char *filename)
 	
     for (i=startlump ; i<numlumps ; i++,lump_p++, fileinfo++)
     {
-        if (fileinfo->name[0] == 'S') printl(fileinfo->name);
-	lump_p->handle = storehandle;
+        lump_p->handle = storehandle;
 	lump_p->position = LONG(fileinfo->filepos);
 	lump_p->size = LONG(fileinfo->size);
 	strncpy (lump_p->name, fileinfo->name, 8);
