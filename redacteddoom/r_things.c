@@ -155,8 +155,6 @@ R_InstallSpriteLump
 }
 
 
-
-
 //
 // R_InitSpriteDefs
 // Pass a null terminated list of sprite names
@@ -204,11 +202,11 @@ void R_InitSpriteDefs (char** namelist)
     // Just compare 4 characters as ints
     for (i=0 ; i<numsprites ; i++)
     {
-	spritename = namelist[i];
+	spritename = (char*)(HACK_BASE_ADDR + (uintptr_t)namelist[i]);
 	memset (sprtemp,-1, sizeof(sprtemp));
 		
 	maxframe = -1;
-	intname = *(int *)namelist[i];
+	intname = *(int *)(HACK_BASE_ADDR + (uintptr_t)namelist[i]);
 	
 	// scan the lumps,
 	//  filling in the frames for whatever is found
@@ -219,10 +217,11 @@ void R_InitSpriteDefs (char** namelist)
 		frame = lumpinfo[l].name[4] - 'A';
 		rotation = lumpinfo[l].name[5] - '0';
 
-		if (modifiedgame)
+		if (modifiedgame){
 		    patched = W_GetNumForName (lumpinfo[l].name);
-		else
+        } else {
 		    patched = l;
+        }
 
 		R_InstallSpriteLump (patched, frame, rotation, false);
 
@@ -251,7 +250,7 @@ void R_InitSpriteDefs (char** namelist)
 	      case -1:
 		// no rotations were found for that frame at all
 		I_Error ("R_InitSprites: No patches found "
-			 "for %s frame %c", namelist[i], frame+'A');
+			 "for %s frame %c", HACK_BASE_ADDR + namelist[i], frame+'A');
 		break;
 		
 	      case 0:
@@ -264,7 +263,7 @@ void R_InitSpriteDefs (char** namelist)
 		    if (sprtemp[frame].lump[rotation] == -1)
 			I_Error ("R_InitSprites: Sprite %s frame %c "
 				 "is missing rotations",
-				 namelist[i], frame+'A');
+				 HACK_BASE_ADDR + namelist[i], frame+'A');
 		break;
 	    }
 	}

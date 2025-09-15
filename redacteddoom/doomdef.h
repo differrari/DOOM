@@ -251,26 +251,26 @@ typedef enum
 #define KEY_UPARROW	0xad
 #define KEY_DOWNARROW	0xaf
 #define KEY_ESCAPE	27
-#define KEY_ENTER	13
-#define KEY_TAB		9
-#define KEY_F1		(0x80+0x3b)
-#define KEY_F2		(0x80+0x3c)
-#define KEY_F3		(0x80+0x3d)
-#define KEY_F4		(0x80+0x3e)
-#define KEY_F5		(0x80+0x3f)
-#define KEY_F6		(0x80+0x40)
-#define KEY_F7		(0x80+0x41)
-#define KEY_F8		(0x80+0x42)
-#define KEY_F9		(0x80+0x43)
-#define KEY_F10		(0x80+0x44)
-#define KEY_F11		(0x80+0x57)
-#define KEY_F12		(0x80+0x58)
+#define KEY_DOOM_ENTER	13
+#define KEY_DOOM_TAB		9
+#define KEY_MOD_F1		(0x80+0x3b)
+#define KEY_MOD_F2		(0x80+0x3c)
+#define KEY_MOD_F3		(0x80+0x3d)
+#define KEY_MOD_F4		(0x80+0x3e)
+#define KEY_MOD_F5		(0x80+0x3f)
+#define KEY_MOD_F6		(0x80+0x40)
+#define KEY_MOD_F7		(0x80+0x41)
+#define KEY_MOD_F8		(0x80+0x42)
+#define KEY_MOD_F9		(0x80+0x43)
+#define KEY_MOD_F10		(0x80+0x44)
+#define KEY_MOD_F11		(0x80+0x57)
+#define KEY_MOD_F12		(0x80+0x58)
 
-#define KEY_BACKSPACE	127
-#define KEY_PAUSE	0xff
+#define KEY_DOOM_BACKSPACE	127
+#define KEY_DOOM_PAUSE	0xff
 
 #define KEY_EQUALS	0x3d
-#define KEY_MINUS	0x2d
+#define KEY_DOOM_MINUS	0x2d
 
 #define KEY_RSHIFT	(0x80+0x36)
 #define KEY_RCTRL	(0x80+0x1d)

@@ -43,8 +43,8 @@
 // Screen 1 is an extra buffer.
 
 
-
-extern	byte*		screens[5];
+#define NUM_SCREENS 5
+extern	byte*		screens[NUM_SCREENS];
 
 extern  int	dirtybox[4];
 

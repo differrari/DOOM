@@ -169,18 +169,16 @@ void W_AddFile (char *filename)
     {
 	// WAD file
 	fread (&handle, (char*)&header, sizeof(header));
-    string identification = string_from_literal_length(header.identification, 4);
-	if (strcmp(identification.data, "IWAD", true))
+	if (strncmp(header.identification, "IWAD", true, 4))
 	{
 	    // Homebrew levels?
-	    if (strcmp(identification.data, "PWAD", true))
+	    if (strncmp(header.identification, "PWAD", true, 4))
 	    {
 		    I_Error ("Wad file %s doesn't have IWAD or PWAD id\n", filename);
 	    }
 	    
 	    // ???modifiedgame = true;		
 	}
-    free(identification.data,identification.mem_length);
 	header.numlumps = LONG(header.numlumps);
     printf("Header info table ofs %i",header.infotableofs);
 	header.infotableofs = LONG(header.infotableofs);
@@ -476,13 +474,13 @@ W_CacheLumpNum
     {
 	// read the lump in
 	
-	//printf ("cache miss on lump %i\n",lump);
+	// printf ("cache miss on lump %i\n",lump);
 	ptr = Z_Malloc (W_LumpLength (lump), tag, &lumpcache[lump]);
 	W_ReadLump (lump, lumpcache[lump]);
     }
     else
     {
-	//printf ("cache hit on lump %i\n",lump);
+	// printf ("cache hit on lump %i\n",lump);
 	Z_ChangeTag (lumpcache[lump],tag);
     }
 	

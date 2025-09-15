@@ -40,4 +40,4 @@ clean:
 	rm $(EXEC_NAME)
 
 dump: all
-	$(ARCH)-objdump -D $(EXEC_NAME) > dump
+	$(ARCH)-objdump -S $(EXEC_NAME) > dump

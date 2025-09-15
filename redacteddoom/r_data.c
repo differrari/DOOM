@@ -699,14 +699,9 @@ int	R_CheckTextureNumForName (char *name)
     if (name[0] == '-')		
 	return 0;
 		
-    for (i=0 ; i<numtextures ; i++){
-        string s = string_from_literal_length(textures[i]->name, 8);
-        if (!strcmp (s.data, name, true) ){
-            free(s.data, s.mem_length);
-            return i;
-        }
-        free(s.data, s.mem_length);
-    }
+    for (i=0 ; i<numtextures ; i++)
+	if (!strncmp (textures[i]->name, name, true, 8) )
+	    return i;
 		
     return -1;
 }

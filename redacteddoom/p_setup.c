@@ -305,9 +305,13 @@ void P_LoadThings (int lump)
     mapthing_t*		mt;
     int			numthings;
     boolean		spawn;
+
+    printf("Lump %i",lump);
 	
     data = W_CacheLumpNum (lump,PU_STATIC);
+    printf("Got data %x",data);
     numthings = W_LumpLength (lump) / sizeof(mapthing_t);
+    printf("Got numthings %x",numthings);
 	
     mt = (mapthing_t *)data;
     for (i=0 ; i<numthings ; i++, mt++)
@@ -346,7 +350,7 @@ void P_LoadThings (int lump)
 	P_SpawnMapThing (mt);
     }
 	
-    Z_Free (data);
+    // Z_Free (data);
 }
 
 
@@ -645,23 +649,34 @@ P_SetupLevel
 	
     leveltime = 0;
 	
+    printf("SetupL1");
     // note: most of this ordering is important	
     P_LoadBlockMap (lumpnum+ML_BLOCKMAP);
+    printf("SetupL2");
     P_LoadVertexes (lumpnum+ML_VERTEXES);
+    printf("SetupL3");
     P_LoadSectors (lumpnum+ML_SECTORS);
+    printf("SetupL4");
     P_LoadSideDefs (lumpnum+ML_SIDEDEFS);
-
+printf("SetupL5");
     P_LoadLineDefs (lumpnum+ML_LINEDEFS);
+    printf("Setup6");
     P_LoadSubsectors (lumpnum+ML_SSECTORS);
+    printf("SetupL7");
     P_LoadNodes (lumpnum+ML_NODES);
+    printf("SetupL8");
     P_LoadSegs (lumpnum+ML_SEGS);
+    printf("SetupL9");
 	
     rejectmatrix = W_CacheLumpNum (lumpnum+ML_REJECT,PU_LEVEL);
+    printf("SetupL10");
     P_GroupLines ();
+    printf("A");
 
     bodyqueslot = 0;
     deathmatch_p = deathmatchstarts;
     P_LoadThings (lumpnum+ML_THINGS);
+    printf("SetupL11");
     
     // if deathmatch, randomly spawn the active players
     if (deathmatch)
@@ -677,7 +692,7 @@ P_SetupLevel
 
     // clear special respawning que
     iquehead = iquetail = 0;		
-	
+	printf("SetupL12");
     // set up world state
     P_SpawnSpecials ();
 	
@@ -699,9 +714,13 @@ P_SetupLevel
 //
 void P_Init (void)
 {
+    printf("1");
     P_InitSwitchList ();
+    printf("2");
     P_InitPicAnims ();
+    printf("3 %x %x",sprnames,*sprnames);
     R_InitSprites (sprnames);
+    printf("4");
 }
 
 

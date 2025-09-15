@@ -12,7 +12,6 @@
 
 typedef uintptr_t FILE;
 
-#define sprintf(buf, fmt, ...) printf(fmt, ##__VA_ARGS__)
 #define fprintf(buf, fmt, ...) printf(fmt, ##__VA_ARGS__)
 
 #define strcpy(str1, str2) memcpy(str1, str2, strlen(str2,0))
@@ -23,5 +22,9 @@ typedef uintptr_t FILE;
 typedef uint8_t byte;
 
 void fclose(FILE *file);
+void sprintf(char* buf, char* fmt, ...);
 
-#define NOT_IMPLEMENTED printf(">>>>>>>>>>>>>>> Function %s not implemented",__func__);
+#define HACK_BASE_ADDR 0x41840000
+
+#define NOT_IMPLEMENTED
+// #define NOT_IMPLEMENTED printf(">>>>>>>>>>>>>>> Function %s not implemented",__func__);

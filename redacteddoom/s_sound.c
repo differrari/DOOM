@@ -137,7 +137,6 @@ S_getChannel
 ( void*		origin,
   sfxinfo_t*	sfxinfo );
 
-
 int
 S_AdjustSoundParams
 ( mobj_t*	listener,
@@ -159,6 +158,8 @@ void S_Init
 ( int		sfxVolume,
   int		musicVolume )
 {  
+    NOT_IMPLEMENTED
+    return;
   int		i;
 
   fprintf( stderr, "S_Init: default sfx volume %d\n", sfxVolume);
@@ -198,6 +199,8 @@ void S_Init
 //
 void S_Start(void)
 {
+    NOT_IMPLEMENTED
+    return;
   int cnum;
   int mnum;
 
@@ -254,6 +257,9 @@ S_StartSoundAtVolume
   int		sfx_id,
   int		volume )
 {
+
+    NOT_IMPLEMENTED
+    return;
 
   int		rc;
   int		sep;
@@ -396,6 +402,8 @@ S_StartSound
 ( void*		origin,
   int		sfx_id )
 {
+    NOT_IMPLEMENTED
+    return;
 #ifdef SAWDEBUG
     // if (sfx_id == sfx_sawful)
     // sfx_id = sfx_itemup;
@@ -467,6 +475,8 @@ S_StartSound
 
 void S_StopSound(void *origin)
 {
+    NOT_IMPLEMENTED
+    return;
 
     int cnum;
 
@@ -493,6 +503,8 @@ void S_StopSound(void *origin)
 //
 void S_PauseSound(void)
 {
+    NOT_IMPLEMENTED
+    return;
     if (mus_playing && !mus_paused)
     {
 	I_PauseSong(mus_playing->handle);
@@ -502,6 +514,8 @@ void S_PauseSound(void)
 
 void S_ResumeSound(void)
 {
+    NOT_IMPLEMENTED
+    return;
     if (mus_playing && mus_paused)
     {
 	I_ResumeSong(mus_playing->handle);
@@ -515,6 +529,8 @@ void S_ResumeSound(void)
 //
 void S_UpdateSounds(void* listener_p)
 {
+    NOT_IMPLEMENTED
+    return;
     int		audible;
     int		cnum;
     int		volume;
@@ -612,6 +628,8 @@ void S_UpdateSounds(void* listener_p)
 
 void S_SetMusicVolume(int volume)
 {
+    NOT_IMPLEMENTED
+    return;
     if (volume < 0 || volume > 127)
     {
 	I_Error("Attempt to set music volume at %d",
@@ -627,7 +645,8 @@ void S_SetMusicVolume(int volume)
 
 void S_SetSfxVolume(int volume)
 {
-
+    NOT_IMPLEMENTED
+    return;
     if (volume < 0 || volume > 127)
 	I_Error("Attempt to set sfx volume at %d", volume);
 
@@ -640,6 +659,8 @@ void S_SetSfxVolume(int volume)
 //
 void S_StartMusic(int m_id)
 {
+    NOT_IMPLEMENTED
+    return;
     S_ChangeMusic(m_id, false);
 }
 
@@ -648,6 +669,8 @@ S_ChangeMusic
 ( int			musicnum,
   int			looping )
 {
+    NOT_IMPLEMENTED
+    return;
     musicinfo_t*	music;
     char		namebuf[9];
 
@@ -685,6 +708,8 @@ S_ChangeMusic
 
 void S_StopMusic(void)
 {
+    NOT_IMPLEMENTED
+    return;
     if (mus_playing)
     {
 	if (mus_paused)
@@ -704,7 +729,8 @@ void S_StopMusic(void)
 
 void S_StopChannel(int cnum)
 {
-
+    NOT_IMPLEMENTED
+    return;
     int		i;
     channel_t*	c = &channels[cnum];
 
@@ -754,6 +780,8 @@ S_AdjustSoundParams
   int*		sep,
   int*		pitch )
 {
+    NOT_IMPLEMENTED
+    return 0;
     fixed_t	approx_dist;
     fixed_t	adx;
     fixed_t	ady;
@@ -826,6 +854,8 @@ S_getChannel
 ( void*		origin,
   sfxinfo_t*	sfxinfo )
 {
+    NOT_IMPLEMENTED
+    return -1;
     // channel number to use
     int		cnum;
     

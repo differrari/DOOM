@@ -405,7 +405,7 @@ void HU_Init(void)
     j = HU_FONTSTART;
     for (i=0;i<HU_FONTSIZE;i++)
     {
-	sprintf(buffer, "STCFN%.3d", j++);
+	sprintf(buffer, "STCFN0%i", j++);
 	hu_font[i] = (patch_t *) W_CacheLumpName(buffer, PU_STATIC);
     }
 
@@ -549,7 +549,7 @@ void HU_Ticker(void)
 		    if (c >= 'a' && c <= 'z')
 			c = (char) shiftxform[(unsigned char) c];
 		    rc = HUlib_keyInIText(&w_inputbuffer[i], c);
-		    if (rc && c == KEY_ENTER)
+		    if (rc && c == KEY_DOOM_ENTER)
 		    {
 			if (w_inputbuffer[i].l.len
 			    && (chat_dest[i] == consoleplayer+1
@@ -712,12 +712,12 @@ boolean HU_Responder(event_t *ev)
 	    macromessage = chat_macros[c];
 	    
 	    // kill last message with a '\n'
-	    HU_queueChatChar(KEY_ENTER); // DEBUG!!!
+	    HU_queueChatChar(KEY_DOOM_ENTER); // DEBUG!!!
 	    
 	    // send the macro message
 	    while (*macromessage)
 		HU_queueChatChar(*macromessage++);
-	    HU_queueChatChar(KEY_ENTER);
+	    HU_queueChatChar(KEY_DOOM_ENTER);
 	    
 	    // leave chat mode and notify that it was sent
 	    chat_on = false;
@@ -740,7 +740,7 @@ boolean HU_Responder(event_t *ev)
 		// sprintf(buf, "KEY: %d => %d", ev->data1, c);
 		//      plr->message = buf;
 	    }
-	    if (c == KEY_ENTER)
+	    if (c == KEY_DOOM_ENTER)
 	    {
 		chat_on = false;
 		if (w_chat.l.len)

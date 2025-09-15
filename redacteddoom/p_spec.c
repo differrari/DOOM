@@ -128,7 +128,7 @@ animdef_t		animdefs[] =
     {true,	"WFALL4",	"WFALL1",	8},
     {true,	"DBRAIN4",	"DBRAIN1",	8},
 	
-    {-1}
+    {2}
 };
 
 anim_t		anims[MAXANIMS];
@@ -152,7 +152,7 @@ void P_InitPicAnims (void)
     
     //	Init animation
     lastanim = anims;
-    for (i=0 ; animdefs[i].istexture != -1 ; i++)
+    for (i=0 ; animdefs[i].istexture != 2 ; i++)
     {
 	if (animdefs[i].istexture)
 	{

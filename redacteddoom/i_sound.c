@@ -143,7 +143,7 @@ myioctl
     int		rc;
     extern int	errno;
 
-    printf("Sound not implemented");
+    NOT_IMPLEMENTED
     
   //   rc = ioctl(fd, command, arg);  
   //   if (rc < 0)
@@ -389,7 +389,7 @@ void I_SetChannels()
     channels[i] = 0;
   }*/
 
-  printf("SetChannels not implemented");
+  NOT_IMPLEMENTED
 
   // This table provides step widths for pitch parameters.
   // I fail to see that this is currently used.
@@ -649,7 +649,7 @@ void
 I_SubmitSound(void)
 {
   // Write it to DSP device.
-  printf("SubmitSound not implemented");
+  NOT_IMPLEMENTED
   // write(audio_fd, mixbuffer, SAMPLECOUNT*BUFMUL);
 }
 

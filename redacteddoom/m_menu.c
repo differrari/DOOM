@@ -243,25 +243,24 @@ enum
 
 menuitem_t MainMenu[]=
 {
-    {1,"M_NGAME",M_NewGame,'n'},
-    {1,"M_OPTION",M_Options,'o'},
-    {1,"M_LOADG",M_LoadGame,'l'},
-    {1,"M_SAVEG",M_SaveGame,'s'},
+    {1,"M_NGAME",HACK_BASE_ADDR + M_NewGame,'n'},
+    {1,"M_OPTION",HACK_BASE_ADDR + M_Options,'o'},
+    {1,"M_LOADG",HACK_BASE_ADDR + M_LoadGame,'l'},
+    {1,"M_SAVEG",HACK_BASE_ADDR + M_SaveGame,'s'},
     // Another hickup with Special edition.
-    {1,"M_RDTHIS",M_ReadThis,'r'},
-    {1,"M_QUITG",M_QuitDOOM,'q'}
+    {1,"M_RDTHIS",HACK_BASE_ADDR + M_ReadThis,'r'},
+    {1,"M_QUITG",HACK_BASE_ADDR + M_QuitDOOM,'q'}
 };
 
 menu_t  MainDef =
 {
     main_end,
     NULL,
-    MainMenu,
-    M_DrawMainMenu,
+    (menuitem_t*)((uintptr_t)MainMenu + HACK_BASE_ADDR),
+    HACK_BASE_ADDR + M_DrawMainMenu,
     97,64,
     0
 };
-
 
 //
 // EPISODE SELECT
@@ -277,18 +276,18 @@ enum
 
 menuitem_t EpisodeMenu[]=
 {
-    {1,"M_EPI1", M_Episode,'k'},
-    {1,"M_EPI2", M_Episode,'t'},
-    {1,"M_EPI3", M_Episode,'i'},
-    {1,"M_EPI4", M_Episode,'t'}
+    {1,"M_EPI1", HACK_BASE_ADDR + M_Episode,'k'},
+    {1,"M_EPI2", HACK_BASE_ADDR + M_Episode,'t'},
+    {1,"M_EPI3", HACK_BASE_ADDR + M_Episode,'i'},
+    {1,"M_EPI4", HACK_BASE_ADDR + M_Episode,'t'}
 };
 
 menu_t  EpiDef =
 {
     ep_end,		// # of menu items
-    &MainDef,		// previous menu
-    EpisodeMenu,	// menuitem_t ->
-    M_DrawEpisode,	// drawing routine ->
+    HACK_BASE_ADDR + &MainDef,		// previous menu
+    (menuitem_t*)((uintptr_t)EpisodeMenu + HACK_BASE_ADDR),	// menuitem_t ->
+    HACK_BASE_ADDR + M_DrawEpisode,	// drawing routine ->
     48,63,              // x,y
     ep1			// lastOn
 };
@@ -308,19 +307,19 @@ enum
 
 menuitem_t NewGameMenu[]=
 {
-    {1,"M_JKILL",	M_ChooseSkill, 'i'},
-    {1,"M_ROUGH",	M_ChooseSkill, 'h'},
-    {1,"M_HURT",	M_ChooseSkill, 'h'},
-    {1,"M_ULTRA",	M_ChooseSkill, 'u'},
-    {1,"M_NMARE",	M_ChooseSkill, 'n'}
+    {1,"M_JKILL",	HACK_BASE_ADDR + M_ChooseSkill, 'i'},
+    {1,"M_ROUGH",	HACK_BASE_ADDR + M_ChooseSkill, 'h'},
+    {1,"M_HURT",	HACK_BASE_ADDR + M_ChooseSkill, 'h'},
+    {1,"M_ULTRA",	HACK_BASE_ADDR + M_ChooseSkill, 'u'},
+    {1,"M_NMARE",	HACK_BASE_ADDR + M_ChooseSkill, 'n'}
 };
 
 menu_t  NewDef =
 {
     newg_end,		// # of menu items
-    &EpiDef,		// previous menu
-    NewGameMenu,	// menuitem_t ->
-    M_DrawNewGame,	// drawing routine ->
+    HACK_BASE_ADDR + &EpiDef,		// previous menu
+    (menuitem_t*)((uintptr_t)NewGameMenu + HACK_BASE_ADDR),	// menuitem_t ->
+    HACK_BASE_ADDR + M_DrawNewGame,	// drawing routine ->
     48,63,              // x,y
     hurtme		// lastOn
 };
@@ -345,22 +344,22 @@ enum
 
 menuitem_t OptionsMenu[]=
 {
-    {1,"M_ENDGAM",	M_EndGame,'e'},
-    {1,"M_MESSG",	M_ChangeMessages,'m'},
-    {1,"M_DETAIL",	M_ChangeDetail,'g'},
-    {2,"M_SCRNSZ",	M_SizeDisplay,'s'},
+    {1,"M_ENDGAM",	HACK_BASE_ADDR + M_EndGame,'e'},
+    {1,"M_MESSG",	HACK_BASE_ADDR + M_ChangeMessages,'m'},
+    {1,"M_DETAIL",	HACK_BASE_ADDR + M_ChangeDetail,'g'},
+    {2,"M_SCRNSZ",	HACK_BASE_ADDR + M_SizeDisplay,'s'},
     {-1,"",0},
-    {2,"M_MSENS",	M_ChangeSensitivity,'m'},
+    {2,"M_MSENS",	HACK_BASE_ADDR + M_ChangeSensitivity,'m'},
     {-1,"",0},
-    {1,"M_SVOL",	M_Sound,'s'}
+    {1,"M_SVOL",	HACK_BASE_ADDR + M_Sound,'s'}
 };
 
 menu_t  OptionsDef =
 {
     opt_end,
-    &MainDef,
-    OptionsMenu,
-    M_DrawOptions,
+    HACK_BASE_ADDR + &MainDef,
+    (menuitem_t*)((uintptr_t)OptionsMenu + HACK_BASE_ADDR),
+    HACK_BASE_ADDR + M_DrawOptions,
     60,37,
     0
 };
@@ -376,15 +375,15 @@ enum
 
 menuitem_t ReadMenu1[] =
 {
-    {1,"",M_ReadThis2,0}
+    {1,"",HACK_BASE_ADDR + M_ReadThis2,0}
 };
 
 menu_t  ReadDef1 =
 {
     read1_end,
-    &MainDef,
-    ReadMenu1,
-    M_DrawReadThis1,
+    HACK_BASE_ADDR + &MainDef,
+    (menuitem_t*)((uintptr_t)ReadMenu1 + HACK_BASE_ADDR),
+    HACK_BASE_ADDR + M_DrawReadThis1,
     280,185,
     0
 };
@@ -397,15 +396,15 @@ enum
 
 menuitem_t ReadMenu2[]=
 {
-    {1,"",M_FinishReadThis,0}
+    {1,"",HACK_BASE_ADDR+ M_FinishReadThis,0}
 };
 
 menu_t  ReadDef2 =
 {
     read2_end,
-    &ReadDef1,
-    ReadMenu2,
-    M_DrawReadThis2,
+    HACK_BASE_ADDR + &ReadDef1,
+    (menuitem_t*)((uintptr_t)ReadMenu2 + HACK_BASE_ADDR),
+    HACK_BASE_ADDR + M_DrawReadThis2,
     330,175,
     0
 };
@@ -424,18 +423,18 @@ enum
 
 menuitem_t SoundMenu[]=
 {
-    {2,"M_SFXVOL",M_SfxVol,'s'},
+    {2,"M_SFXVOL",HACK_BASE_ADDR + M_SfxVol,'s'},
     {-1,"",0},
-    {2,"M_MUSVOL",M_MusicVol,'m'},
+    {2,"M_MUSVOL",HACK_BASE_ADDR + M_MusicVol,'m'},
     {-1,"",0}
 };
 
 menu_t  SoundDef =
 {
     sound_end,
-    &OptionsDef,
-    SoundMenu,
-    M_DrawSound,
+    HACK_BASE_ADDR + &OptionsDef,
+    (menuitem_t*)((uintptr_t)SoundMenu + HACK_BASE_ADDR),
+    HACK_BASE_ADDR + M_DrawSound,
     80,64,
     0
 };
@@ -456,20 +455,20 @@ enum
 
 menuitem_t LoadMenu[]=
 {
-    {1,"", M_LoadSelect,'1'},
-    {1,"", M_LoadSelect,'2'},
-    {1,"", M_LoadSelect,'3'},
-    {1,"", M_LoadSelect,'4'},
-    {1,"", M_LoadSelect,'5'},
-    {1,"", M_LoadSelect,'6'}
+    {1,"", HACK_BASE_ADDR + M_LoadSelect,'1'},
+    {1,"", HACK_BASE_ADDR + M_LoadSelect,'2'},
+    {1,"", HACK_BASE_ADDR + M_LoadSelect,'3'},
+    {1,"", HACK_BASE_ADDR + M_LoadSelect,'4'},
+    {1,"", HACK_BASE_ADDR + M_LoadSelect,'5'},
+    {1,"", HACK_BASE_ADDR + M_LoadSelect,'6'}
 };
 
 menu_t  LoadDef =
 {
     load_end,
-    &MainDef,
-    LoadMenu,
-    M_DrawLoad,
+    HACK_BASE_ADDR + &MainDef,
+    (menuitem_t*)((uintptr_t)LoadMenu + HACK_BASE_ADDR),
+    HACK_BASE_ADDR + M_DrawLoad,
     80,54,
     0
 };
@@ -479,20 +478,20 @@ menu_t  LoadDef =
 //
 menuitem_t SaveMenu[]=
 {
-    {1,"", M_SaveSelect,'1'},
-    {1,"", M_SaveSelect,'2'},
-    {1,"", M_SaveSelect,'3'},
-    {1,"", M_SaveSelect,'4'},
-    {1,"", M_SaveSelect,'5'},
-    {1,"", M_SaveSelect,'6'}
+    {1,"", HACK_BASE_ADDR + M_SaveSelect,'1'},
+    {1,"", HACK_BASE_ADDR + M_SaveSelect,'2'},
+    {1,"", HACK_BASE_ADDR + M_SaveSelect,'3'},
+    {1,"", HACK_BASE_ADDR + M_SaveSelect,'4'},
+    {1,"", HACK_BASE_ADDR + M_SaveSelect,'5'},
+    {1,"", HACK_BASE_ADDR + M_SaveSelect,'6'}
 };
 
 menu_t  SaveDef =
 {
     load_end,
-    &MainDef,
-    SaveMenu,
-    M_DrawSave,
+    HACK_BASE_ADDR + &MainDef,
+    (menuitem_t*)((uintptr_t)SaveMenu + HACK_BASE_ADDR),
+    HACK_BASE_ADDR + M_DrawSave,
     80,54,
     0
 };
@@ -1380,12 +1379,12 @@ boolean M_Responder (event_t* ev)
 		
 	if (ev->data1&1)
 	{
-	    ch = KEY_ENTER;
+	    ch = KEY_DOOM_ENTER;
 	    joywait = I_GetTime() + 5;
 	}
 	if (ev->data1&2)
 	{
-	    ch = KEY_BACKSPACE;
+	    ch = KEY_DOOM_BACKSPACE;
 	    joywait = I_GetTime() + 5;
 	}
     }
@@ -1423,13 +1422,13 @@ boolean M_Responder (event_t* ev)
 		
 	    if (ev->data1&1)
 	    {
-		ch = KEY_ENTER;
+		ch = KEY_DOOM_ENTER;
 		mousewait = I_GetTime() + 15;
 	    }
 			
 	    if (ev->data1&2)
 	    {
-		ch = KEY_BACKSPACE;
+		ch = KEY_DOOM_BACKSPACE;
 		mousewait = I_GetTime() + 15;
 	    }
 	}
@@ -1449,7 +1448,7 @@ boolean M_Responder (event_t* ev)
     {
 	switch(ch)
 	{
-	  case KEY_BACKSPACE:
+	  case KEY_DOOM_BACKSPACE:
 	    if (saveCharIndex > 0)
 	    {
 		saveCharIndex--;
@@ -1462,7 +1461,7 @@ boolean M_Responder (event_t* ev)
 	    strcpy(&savegamestrings[saveSlot][0],saveOldString);
 	    break;
 				
-	  case KEY_ENTER:
+	  case KEY_DOOM_ENTER:
 	    saveStringEnter = 0;
 	    if (savegamestrings[saveSlot][0])
 		M_DoSave(saveSlot);
@@ -1503,7 +1502,7 @@ boolean M_Responder (event_t* ev)
 	return true;
     }
 	
-    if (devparm && ch == KEY_F1)
+    if (devparm && ch == KEY_MOD_F1)
     {
 	G_ScreenShot ();
 	return true;
@@ -1514,7 +1513,7 @@ boolean M_Responder (event_t* ev)
     if (!menuactive)
 	switch(ch)
 	{
-	  case KEY_MINUS:         // Screen size down
+	  case KEY_DOOM_MINUS:         // Screen size down
 	    if (automapactive || chat_on)
 		return false;
 	    M_SizeDisplay(0);
@@ -1528,7 +1527,7 @@ boolean M_Responder (event_t* ev)
 	    S_StartSound(NULL,sfx_stnmov);
 	    return true;
 				
-	  case KEY_F1:            // Help key
+	  case KEY_MOD_F1:            // Help key
 	    M_StartControlPanel ();
 
 	    if ( gamemode == retail )
@@ -1540,56 +1539,56 @@ boolean M_Responder (event_t* ev)
 	    S_StartSound(NULL,sfx_swtchn);
 	    return true;
 				
-	  case KEY_F2:            // Save
+	  case KEY_MOD_F2:            // Save
 	    M_StartControlPanel();
 	    S_StartSound(NULL,sfx_swtchn);
 	    M_SaveGame(0);
 	    return true;
 				
-	  case KEY_F3:            // Load
+	  case KEY_MOD_F3:            // Load
 	    M_StartControlPanel();
 	    S_StartSound(NULL,sfx_swtchn);
 	    M_LoadGame(0);
 	    return true;
 				
-	  case KEY_F4:            // Sound Volume
+	  case KEY_MOD_F4:            // Sound Volume
 	    M_StartControlPanel ();
 	    currentMenu = &SoundDef;
 	    itemOn = sfx_vol;
 	    S_StartSound(NULL,sfx_swtchn);
 	    return true;
 				
-	  case KEY_F5:            // Detail toggle
+	  case KEY_MOD_F5:            // Detail toggle
 	    M_ChangeDetail(0);
 	    S_StartSound(NULL,sfx_swtchn);
 	    return true;
 				
-	  case KEY_F6:            // Quicksave
+	  case KEY_MOD_F6:            // Quicksave
 	    S_StartSound(NULL,sfx_swtchn);
 	    M_QuickSave();
 	    return true;
 				
-	  case KEY_F7:            // End game
+	  case KEY_MOD_F7:            // End game
 	    S_StartSound(NULL,sfx_swtchn);
 	    M_EndGame(0);
 	    return true;
 				
-	  case KEY_F8:            // Toggle messages
+	  case KEY_MOD_F8:            // Toggle messages
 	    M_ChangeMessages(0);
 	    S_StartSound(NULL,sfx_swtchn);
 	    return true;
 				
-	  case KEY_F9:            // Quickload
+	  case KEY_MOD_F9:            // Quickload
 	    S_StartSound(NULL,sfx_swtchn);
 	    M_QuickLoad();
 	    return true;
 				
-	  case KEY_F10:           // Quit DOOM
+	  case KEY_MOD_F10:           // Quit DOOM
 	    S_StartSound(NULL,sfx_swtchn);
 	    M_QuitDOOM(0);
 	    return true;
 				
-	  case KEY_F11:           // gamma toggle
+	  case KEY_MOD_F11:           // gamma toggle
 	    usegamma++;
 	    if (usegamma > 4)
 		usegamma = 0;
@@ -1654,7 +1653,7 @@ boolean M_Responder (event_t* ev)
 	}
 	return true;
 
-      case KEY_ENTER:
+      case KEY_DOOM_ENTER:
 	if (currentMenu->menuitems[itemOn].routine &&
 	    currentMenu->menuitems[itemOn].status)
 	{
@@ -1678,7 +1677,7 @@ boolean M_Responder (event_t* ev)
 	S_StartSound(NULL,sfx_swtchx);
 	return true;
 		
-      case KEY_BACKSPACE:
+      case KEY_DOOM_BACKSPACE:
 	currentMenu->lastOn = itemOn;
 	if (currentMenu->prevMenu)
 	{

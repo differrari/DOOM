@@ -31,7 +31,7 @@
 #define FG			0
 
 // font stuff
-#define HU_CHARERASE	KEY_BACKSPACE
+#define HU_CHARERASE	KEY_DOOM_BACKSPACE
 
 #define HU_MAXLINES		4
 #define HU_MAXLINELENGTH	80
