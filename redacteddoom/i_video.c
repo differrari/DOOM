@@ -107,21 +107,33 @@ int xlatekey(char key)
 
 }
 
+keypress oldkp = {};
+
 void I_GetEvent(void)
 {
 
-    event_t event;
-
     // put event-grabbing stuff in here
     
-	keypress kp = {};
-	if (read_key(&kp)){	
-		if (kp.keys[0]){
-			event.type = ev_keydown;
-			event.data1 = xlatekey(kp.keys[0]);
-		} else event.type = ev_keyup;
-		D_PostEvent(&event);
-	}
+    keypress kp = {};
+    for (int j = 0; j < 10 && read_key(&kp); j++){
+        for (int i = 0; i < 6; i++) {
+            if (kp.keys[i] != oldkp.keys[i] && oldkp.keys[i]){
+                event_t event;
+                event.type = ev_keyup;
+                event.data1 = xlatekey(oldkp.keys[i]);
+                D_PostEvent(&event);
+
+                if (!kp.keys[i]) continue;
+            }
+
+            event_t event;
+            event.type = ev_keydown;
+            event.data1 = xlatekey(kp.keys[i]);
+            D_PostEvent(&event);
+        }
+        oldkp = kp;
+    }
+}
 
     // switch (X_event.type)
     // {
@@ -201,7 +213,7 @@ void I_GetEvent(void)
 	// break;
     // }
 
-}
+// }
 
 void I_StartFrame(void){
 	I_GetEvent();
