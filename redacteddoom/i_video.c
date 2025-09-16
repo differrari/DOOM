@@ -36,7 +36,9 @@ draw_ctx *ctx;
 void I_InitGraphics (void){
 	ctx = (draw_ctx*)malloc(sizeof(draw_ctx));
 	request_draw_ctx(ctx);
-	// screen = (byte*)malloc(SCREENWIDTH*SCREENHEIGHT*NUM_SCREENS);
+	if (ctx->width < SCREENWIDTH || ctx->height < SCREENHEIGHT){
+		I_Error("Game must run at at least 320x200 resolution");
+	}
 }
 
 void I_StartTic (void){
@@ -220,7 +222,7 @@ void I_StartFrame(void){
 }
 
 void I_ShutdownGraphics(void){
-	NOT_IMPLEMENTED
+	
 }
 
 argbcolor colors[256];
@@ -240,9 +242,12 @@ void I_UpdateNoBlit (void){
 }
 
 void I_FinishUpdate (void){
-	for (int i = 0; i < SCREENWIDTH*SCREENHEIGHT; i++){
-		ctx->fb[i] = colors[screens[0][i]].color;
+	for (int x = 0; x < SCREENWIDTH; x++){
+		for (int y = 0; y < SCREENHEIGHT; y++){
+			ctx->fb[(y * ctx->width) + x] = colors[screens[0][(y * SCREENWIDTH) + x]].color;
+		}
 	}
+    
 	ctx->full_redraw = true;
 	commit_draw_ctx(ctx);
 }
