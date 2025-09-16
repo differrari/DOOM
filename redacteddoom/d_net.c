@@ -643,15 +643,12 @@ void TryRunTics (void)
     int		availabletics;
     int		counts;
     int		numplaying;
-
-	printf("1");
     
     // get real tics		
     entertic = I_GetTime ()/ticdup;
     realtics = entertic - oldentertics;
     oldentertics = entertic;
     
-	printf("2");
     // get available tics
     // NetUpdate ();
 	
@@ -667,7 +664,6 @@ void TryRunTics (void)
 	}
     }
 
-	printf("3");
     availabletics = lowtic - gametic/ticdup;
     
     // decide how many tics to run
@@ -683,14 +679,10 @@ void TryRunTics (void)
 		
     frameon++;
 
-	printf("4");
-
     if (debugfile)
 	fprintf (debugfile,
 		 "=======real: %i  avail: %i  game: %i\n",
 		 realtics, availabletics,counts);
-
-	printf("5");
 
     if (!demoplayback)
     {	
@@ -705,7 +697,6 @@ void TryRunTics (void)
 	}
 	else
 	{
-		printf("6");
 	    if (nettics[0] <= nettics[nodeforplayer[i]])
 	    {
 		gametime--;

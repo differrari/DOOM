@@ -183,7 +183,7 @@ boolean         gamekeydown[NUMKEYS];
 int             turnheld;				// for accelerative turning 
  
 boolean		mousearray[4]; 
-boolean*	mousebuttons = (boolean*)(HACK_BASE_ADDR + (uintptr_t)&mousearray[1]);		// allow [-1]
+boolean*	mousebuttons = &mousearray[1];		// allow [-1]
 
 // mouse values are used once 
 int             mousex;
@@ -200,7 +200,7 @@ int		dclicks2;
 int             joyxmove;
 int		joyymove;
 boolean         joyarray[5]; 
-boolean*	joybuttons = (boolean*)(HACK_BASE_ADDR + (uintptr_t)&joyarray[1]);		// allow [-1] 
+boolean*	joybuttons = &joyarray[1];		// allow [-1] 
  
 int		savegameslot; 
 char		savedescription[32]; 
@@ -444,8 +444,6 @@ void G_DoLoadLevel (void)
 { 
     int             i; 
 
-    printf("LoadL1");
-
     // Set the sky map.
     // First thing, we have a dummy sky texture name,
     //  a flat. The data is in the WAD only because
@@ -474,16 +472,12 @@ void G_DoLoadLevel (void)
 
     gamestate = GS_LEVEL; 
 
-    printf("LoadL2");
-
     for (i=0 ; i<MAXPLAYERS ; i++) 
     { 
 	if (playeringame[i] && players[i].playerstate == PST_DEAD) 
 	    players[i].playerstate = PST_REBORN; 
 	memset (players[i].frags,0,sizeof(players[i].frags)); 
     } 
-
-    printf("LoadL3");
 		 
     P_SetupLevel (gameepisode, gamemap, 0, gameskill);    
     displayplayer = consoleplayer;		// view the guy you are playing    
@@ -1426,10 +1420,8 @@ G_InitNew
     else
 	respawnmonsters = false;
 		
-    printf(" Option a");
     if (fastparm || (skill == sk_nightmare && gameskill != sk_nightmare) )
     { 
-        printf(" Option b");
         for (i=S_SARG_RUN1 ; i<=S_SARG_PAIN2 ; i++) 
             states[i].tics >>= 1; 
         mobjinfo[MT_BRUISERSHOT].speed = 20*FRACUNIT; 
@@ -1438,15 +1430,13 @@ G_InitNew
     } 
     else if (skill != sk_nightmare && gameskill == sk_nightmare) 
     { 
-        printf(" Option c");
         for (i=S_SARG_RUN1 ; i<=S_SARG_PAIN2 ; i++) 
             states[i].tics <<= 1; 
         mobjinfo[MT_BRUISERSHOT].speed = 15*FRACUNIT; 
         mobjinfo[MT_HEADSHOT].speed = 10*FRACUNIT; 
         mobjinfo[MT_TROOPSHOT].speed = 10*FRACUNIT; 
     } 
-	 
-    printf(" Option d");
+
 			 
     // force players to be initialized upon first level load         
     for (i=0 ; i<MAXPLAYERS ; i++) 

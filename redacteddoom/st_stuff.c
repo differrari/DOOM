@@ -1166,8 +1166,7 @@ void ST_loadGraphics(void)
     }
 
     // face backgrounds for different color players
-    // sprintf(namebuf, "STFB%i", consoleplayer);
-	// printf(namebuf);
+    // sprintf(namebuf, "STFB%i", 2);
     // faceback = (patch_t *) W_CacheLumpName(namebuf, PU_STATIC);
 
     // status bar background bits
