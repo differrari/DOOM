@@ -1355,6 +1355,7 @@ void G_DoNewGame (void)
     netdemo = false;
     netgame = false;
     deathmatch = false;
+    playeringame[0] = 1;
     playeringame[1] = playeringame[2] = playeringame[3] = 0;
     respawnparm = false;
     fastparm = false;
@@ -1586,7 +1587,7 @@ void G_DoPlayDemo (void)
     demobuffer = demo_p = W_CacheLumpName (defdemoname, PU_STATIC); 
     if ( *demo_p++ != VERSION)
     {
-      fprintf( stderr, "Demo is from a different game version!\n");
+      fprintf( stderr, "Demo is from a different game version! %i\n", *demo_p);
       gameaction = ga_nothing;
       return;
     }

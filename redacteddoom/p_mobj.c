@@ -419,7 +419,7 @@ void P_MobjThinker (mobj_t* mobj)
     // momentum movement
     if (mobj->momx
 	|| mobj->momy
-	|| (mobj->flags&MF_SKULLFLY) )
+	|| (mobj->flags & MF_SKULLFLY) )
     {
 	P_XYMovement (mobj);
 
@@ -442,12 +442,14 @@ void P_MobjThinker (mobj_t* mobj)
     // calling action functions at transitions
     if (mobj->tics != -1)
     {
-	mobj->tics--;
-		
-	// you can cycle through multiple states in a tic
-	if (!mobj->tics)
-	    if (!P_SetMobjState (mobj, mobj->state->nextstate) )
-		return;		// freed itself
+        mobj->tics--;
+            
+        // you can cycle through multiple states in a tic
+        if (!mobj->tics){
+            if (!P_SetMobjState (mobj, mobj->state->nextstate) ){
+                return;		// freed itself
+            }
+        }
     }
     else
     {
@@ -654,7 +656,7 @@ void P_SpawnPlayer (mapthing_t* mthing)
 
     // not playing?
     if (!playeringame[mthing->type-1])
-	return;					
+        return;					
 		
     p = &players[mthing->type-1];
 
@@ -730,12 +732,12 @@ void P_SpawnMapThing (mapthing_t* mthing)
     // check for players specially
     if (mthing->type <= 4)
     {
-	// save spots for respawning in network games
-	playerstarts[mthing->type-1] = *mthing;
+        // save spots for respawning in network games
+        playerstarts[mthing->type-1] = *mthing;
 	if (!deathmatch)
-	    P_SpawnPlayer (mthing);
+	        P_SpawnPlayer (mthing);
 
-	return;
+	    return;
     }
 
     // check for apropriate skill level

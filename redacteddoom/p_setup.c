@@ -537,7 +537,7 @@ void P_GroupLines (void)
     }
 	
     // build line tables for each sector	
-    linebuffer = Z_Malloc (total*4, PU_LEVEL, 0);
+    linebuffer = Z_Malloc (total*sizeof(uintptr_t), PU_LEVEL, 0);
     sector = sectors;
     for (i=0 ; i<numsectors ; i++, sector++)
     {
@@ -649,34 +649,22 @@ P_SetupLevel
 	
     leveltime = 0;
 	
-    printf("SetupL1");
     // note: most of this ordering is important	
     P_LoadBlockMap (lumpnum+ML_BLOCKMAP);
-    printf("SetupL2");
     P_LoadVertexes (lumpnum+ML_VERTEXES);
-    printf("SetupL3");
     P_LoadSectors (lumpnum+ML_SECTORS);
-    printf("SetupL4");
     P_LoadSideDefs (lumpnum+ML_SIDEDEFS);
-printf("SetupL5");
     P_LoadLineDefs (lumpnum+ML_LINEDEFS);
-    printf("Setup6");
     P_LoadSubsectors (lumpnum+ML_SSECTORS);
-    printf("SetupL7");
     P_LoadNodes (lumpnum+ML_NODES);
-    printf("SetupL8");
     P_LoadSegs (lumpnum+ML_SEGS);
-    printf("SetupL9");
 	
     rejectmatrix = W_CacheLumpNum (lumpnum+ML_REJECT,PU_LEVEL);
-    printf("SetupL10");
     P_GroupLines ();
-    printf("A");
 
     bodyqueslot = 0;
     deathmatch_p = deathmatchstarts;
     P_LoadThings (lumpnum+ML_THINGS);
-    printf("SetupL11");
     
     // if deathmatch, randomly spawn the active players
     if (deathmatch)
@@ -691,8 +679,7 @@ printf("SetupL5");
     }
 
     // clear special respawning que
-    iquehead = iquetail = 0;		
-	printf("SetupL12");
+    iquehead = iquetail = 0;	
     // set up world state
     P_SpawnSpecials ();
 	

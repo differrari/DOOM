@@ -24,7 +24,7 @@ typedef uint8_t byte;
 void fclose(FILE *file);
 void sprintf(char* buf, char* fmt, ...);
 
-#define HACK_BASE_ADDR 0x41840000
+#define HACK_BASE_ADDR 0
 
 #define NOT_IMPLEMENTED
 // #define NOT_IMPLEMENTED printf(">>>>>>>>>>>>>>> Function %s not implemented",__func__);

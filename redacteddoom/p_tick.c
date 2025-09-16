@@ -106,8 +106,6 @@ void P_RunThinkers (void)
     currentthinker = thinkercap.next;
     while (currentthinker != &thinkercap)
     {
-
-        printf("Current thinker %x Thinker cap %x",currentthinker,&thinkercap);
 	if ( currentthinker->function.acv == (actionf_v)(-1) )
 	{
 	    // time to remove it
