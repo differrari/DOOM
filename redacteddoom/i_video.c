@@ -33,12 +33,19 @@
 draw_ctx *ctx;
 // byte *screen;
 
+uint32_t scaleFactor = 1;
+uint32_t pad_x, pad_y;
+
+
 void I_InitGraphics (void){
 	ctx = (draw_ctx*)malloc(sizeof(draw_ctx));
 	request_draw_ctx(ctx);
 	if (ctx->width < SCREENWIDTH || ctx->height < SCREENHEIGHT){
 		I_Error("Game must run at at least 320x200 resolution");
 	}
+	scaleFactor = min(ctx->width/SCREENWIDTH,ctx->height/SCREENHEIGHT);
+	pad_x = (ctx->width - (SCREENWIDTH * scaleFactor))/2;
+	pad_y = (ctx->height - (SCREENHEIGHT * scaleFactor))/2;
 }
 
 void I_StartTic (void){
@@ -137,86 +144,6 @@ void I_GetEvent(void)
     }
 }
 
-    // switch (X_event.type)
-    // {
-    //   case KeyPress:
-	// event.type = ev_keydown;
-	// event.data1 = xlatekey();
-	// D_PostEvent(&event);
-	// // fprintf(stderr, "k");
-	// break;
-    //   case KeyRelease:
-	// event.type = ev_keyup;
-	// event.data1 = xlatekey();
-	// D_PostEvent(&event);
-	// // fprintf(stderr, "ku");
-	// break;
-    //   case ButtonPress:
-	// event.type = ev_mouse;
-	// event.data1 =
-	//     (X_event.xbutton.state & Button1Mask)
-	//     | (X_event.xbutton.state & Button2Mask ? 2 : 0)
-	//     | (X_event.xbutton.state & Button3Mask ? 4 : 0)
-	//     | (X_event.xbutton.button == Button1)
-	//     | (X_event.xbutton.button == Button2 ? 2 : 0)
-	//     | (X_event.xbutton.button == Button3 ? 4 : 0);
-	// event.data2 = event.data3 = 0;
-	// D_PostEvent(&event);
-	// // fprintf(stderr, "b");
-	// break;
-    //   case ButtonRelease:
-	// event.type = ev_mouse;
-	// event.data1 =
-	//     (X_event.xbutton.state & Button1Mask)
-	//     | (X_event.xbutton.state & Button2Mask ? 2 : 0)
-	//     | (X_event.xbutton.state & Button3Mask ? 4 : 0);
-	// // suggest parentheses around arithmetic in operand of |
-	// event.data1 =
-	//     event.data1
-	//     ^ (X_event.xbutton.button == Button1 ? 1 : 0)
-	//     ^ (X_event.xbutton.button == Button2 ? 2 : 0)
-	//     ^ (X_event.xbutton.button == Button3 ? 4 : 0);
-	// event.data2 = event.data3 = 0;
-	// D_PostEvent(&event);
-	// // fprintf(stderr, "bu");
-	// break;
-    //   case MotionNotify:
-	// event.type = ev_mouse;
-	// event.data1 =
-	//     (X_event.xmotion.state & Button1Mask)
-	//     | (X_event.xmotion.state & Button2Mask ? 2 : 0)
-	//     | (X_event.xmotion.state & Button3Mask ? 4 : 0);
-	// event.data2 = (X_event.xmotion.x - lastmousex) << 2;
-	// event.data3 = (lastmousey - X_event.xmotion.y) << 2;
-
-	// if (event.data2 || event.data3)
-	// {
-	//     lastmousex = X_event.xmotion.x;
-	//     lastmousey = X_event.xmotion.y;
-	//     if (X_event.xmotion.x != X_width/2 &&
-	// 	X_event.xmotion.y != X_height/2)
-	//     {
-	// 	D_PostEvent(&event);
-	// 	// fprintf(stderr, "m");
-	// 	mousemoved = false;
-	//     } else
-	//     {
-	// 	mousemoved = true;
-	//     }
-	// }
-	// break;
-	
-    //   case Expose:
-    //   case ConfigureNotify:
-	// break;
-	
-    //   default:
-	// if (doShm && X_event.type == X_shmeventtype) shmFinished = true;
-	// break;
-    // }
-
-// }
-
 void I_StartFrame(void){
 	I_GetEvent();
 }
@@ -242,11 +169,17 @@ void I_UpdateNoBlit (void){
 }
 
 void I_FinishUpdate (void){
-	for (int x = 0; x < SCREENWIDTH; x++){
-		for (int y = 0; y < SCREENHEIGHT; y++){
-			ctx->fb[(y * ctx->width) + x] = colors[screens[0][(y * SCREENWIDTH) + x]].color;
-		}
-	}
+    for (int x = 0; x < SCREENWIDTH; x++) {
+        for (int y = 0; y < SCREENHEIGHT; y++) {
+            uint32_t color = colors[screens[0][(y * SCREENWIDTH) + x]].color;
+
+            for (int dx = 0; dx < scaleFactor; dx++) {
+                for (int dy = 0; dy < scaleFactor; dy++) {
+                    ctx->fb[((y * scaleFactor + dy + pad_y) * ctx->width) + (x * scaleFactor + dx + pad_x)] = color;
+                }
+            }
+        }
+    }
     
 	ctx->full_redraw = true;
 	commit_draw_ctx(ctx);
