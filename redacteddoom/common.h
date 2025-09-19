@@ -21,7 +21,6 @@ typedef uintptr_t FILE;
 
 typedef uint8_t byte;
 
-void fclose(FILE *file);
 void sprintf(char* buf, char* fmt, ...);
 
 #define HACK_BASE_ADDR 0
