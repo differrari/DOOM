@@ -89,7 +89,7 @@ doomdata_t	reboundstore;
 //
 int NetbufferSize (void)
 {
-    return (int)&(((doomdata_t *)0)->cmds[netbuffer->numtics]); 
+    return (uintptr_t)&(((doomdata_t *)0)->cmds[netbuffer->numtics]); 
 }
 
 //
@@ -740,8 +740,8 @@ void TryRunTics (void)
 	{
 	    if (gametic/ticdup > lowtic)
 		I_Error ("gametic>lowtic");
-	    // if (advancedemo)
-		// D_DoAdvanceDemo ();
+	    if (advancedemo)
+		D_DoAdvanceDemo ();
 	    M_Ticker ();
 	    G_Ticker ();
 	    gametic++;
