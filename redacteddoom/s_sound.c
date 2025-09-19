@@ -162,7 +162,7 @@ void S_Init
     return;
   int		i;
 
-  fprintf( stderr, "S_Init: default sfx volume %d\n", sfxVolume);
+  fprintf( stderr, "S_Init: default sfx volume %i\n", sfxVolume);
 
   // Whatever these did with DMX, these are rather dummies now.
   I_SetChannels();
@@ -273,12 +273,12 @@ S_StartSoundAtVolume
   
   // Debug.
   /*fprintf( stderr,
-  	   "S_StartSoundAtVolume: playing sound %d (%s)\n",
+  	   "S_StartSoundAtVolume: playing sound %i (%s)\n",
   	   sfx_id, S_sfx[sfx_id].name );*/
   
   // check for bogus sound #
   if (sfx_id < 1 || sfx_id > NUMSFX)
-    I_Error("Bad sfx #: %d", sfx_id);
+    I_Error("Bad sfx #: %i", sfx_id);
   
   sfx = &S_sfx[sfx_id];
   
@@ -377,7 +377,7 @@ S_StartSoundAtVolume
     // DOS remains, 8bit handling
     //sfx->data = (void *) W_CacheLumpNum(sfx->lumpnum, PU_MUSIC);
     // fprintf( stderr,
-    //	     "S_StartSoundAtVolume: loading %d (lump %d) : 0x%x\n",
+    //	     "S_StartSoundAtVolume: loading %i (lump %i) : 0x%x\n",
     //       sfx_id, sfx->lumpnum, (int)sfx->data );
     
   }
@@ -429,7 +429,7 @@ S_StartSound
 	for (i=first_saw;i!=next_saw;i=(i+1)%10)
 	    if (last_saw_origins[i] != origin)
 		fprintf(stderr, "old origin 0x%lx != "
-			"origin 0x%lx for sfx %d\n",
+			"origin 0x%lx for sfx %i\n",
 			last_saw_origins[i],
 			origin,
 			sfx_id);
@@ -456,7 +456,7 @@ S_StartSound
 		{
 		    fprintf(stderr,
 			    "chn: sfxinfo=0x%lx, origin=0x%lx, "
-			    "handle=%d\n",
+			    "handle=%i\n",
 			    channels[i].sfxinfo,
 			    channels[i].origin,
 			    channels[i].handle);
@@ -632,7 +632,7 @@ void S_SetMusicVolume(int volume)
     return;
     if (volume < 0 || volume > 127)
     {
-	I_Error("Attempt to set music volume at %d",
+	I_Error("Attempt to set music volume at %i",
 		volume);
     }    
 
@@ -648,7 +648,7 @@ void S_SetSfxVolume(int volume)
     NOT_IMPLEMENTED
     return;
     if (volume < 0 || volume > 127)
-	I_Error("Attempt to set sfx volume at %d", volume);
+	I_Error("Attempt to set sfx volume at %i", volume);
 
     snd_SfxVolume = volume;
 
@@ -677,7 +677,7 @@ S_ChangeMusic
     if ( (musicnum <= mus_None)
 	 || (musicnum >= NUMMUSIC) )
     {
-	I_Error("Bad music number %d", musicnum);
+	I_Error("Bad music number %i", musicnum);
     }
     else
 	music = &S_music[musicnum];

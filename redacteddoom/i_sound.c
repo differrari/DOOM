@@ -148,8 +148,8 @@ myioctl
   //   rc = ioctl(fd, command, arg);  
   //   if (rc < 0)
   //   {
-	// fprintf(stderr, "ioctl(dsp,%d,arg) failed\n", command);
-	// fprintf(stderr, "errno=%d\n", errno);
+	// fprintf(stderr, "ioctl(dsp,%i,arg) failed\n", command);
+	// fprintf(stderr, "errno=%i\n", errno);
 	// exit(-1);
   //   }
 }
@@ -199,7 +199,7 @@ getsfx
 
     // Debug.
     // fprintf( stderr, "." );
-    //fprintf( stderr, " -loading  %s (lump %d, %d bytes)\n",
+    //fprintf( stderr, " -loading  %s (lump %i, %i bytes)\n",
     //	     sfxname, sfxlump, size );
     //fflush( stderr );
     
@@ -471,12 +471,12 @@ I_StartSound
 //     return id;
 // #else
 //     // Debug.
-//     //fprintf( stderr, "starting sound %d", id );
+//     //fprintf( stderr, "starting sound %i", id );
     
 //     // Returns a handle (not used).
 //     id = addsfx( id, vol, steptable[pitch], sep );
 
-//     // fprintf( stderr, "/handle is %d\n", id );
+//     // fprintf( stderr, "/handle is %i\n", id );
     
 //     return id;
 // #endif
@@ -716,7 +716,7 @@ I_InitSound()
   int i;
   
 // #ifdef SNDINTR
-//   fprintf( stderr, "I_SoundSetTimer: %d microsecs\n", SOUND_INTERVAL );
+//   fprintf( stderr, "I_SoundSetTimer: %i microsecs\n", SOUND_INTERVAL );
 //   I_SoundSetTimer( SOUND_INTERVAL );
 // #endif
     
