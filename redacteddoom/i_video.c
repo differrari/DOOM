@@ -116,6 +116,21 @@ int xlatekey(char key)
 
 }
 
+int xlatemod(uint8_t key){
+	switch (key) {
+		case 1: 
+		return KEY_RCTRL;
+		break;
+		case 2:
+		return KEY_RSHIFT;
+		break;
+		case 4:
+		return KEY_RALT;
+		break;
+		default: return 0;
+	}
+}
+
 keypress oldkp = {};
 
 void I_GetEvent(void)
@@ -125,6 +140,16 @@ void I_GetEvent(void)
     
     keypress kp = {};
     for (int j = 0; j < 10 && read_key(&kp); j++){
+		for (int i = 0; i < 8; i++){
+			char oldkey = (oldkp.modifier & (1 << i));
+			char newkey = (kp.modifier & (1 << i));
+			if (oldkey != newkey){
+				event_t event;
+				event.type = oldkey ? ev_keyup : ev_keydown;
+				event.data1 = xlatemod(oldkey ? oldkey : newkey);
+				D_PostEvent(&event);
+			}
+		}
         for (int i = 0; i < 6; i++) {
             if (kp.keys[i] != oldkp.keys[i] && oldkp.keys[i]){
                 event_t event;
