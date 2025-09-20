@@ -41,7 +41,7 @@ void I_InitGraphics (void){
 	ctx = (draw_ctx*)malloc(sizeof(draw_ctx));
 	request_draw_ctx(ctx);
 	if (ctx->width < SCREENWIDTH || ctx->height < SCREENHEIGHT){
-		I_Error("Game must run at at least 320x200 resolution");
+		resize_draw_ctx(ctx, SCREENWIDTH, SCREENHEIGHT);
 	}
 	scaleFactor = min(ctx->width/SCREENWIDTH,ctx->height/SCREENHEIGHT);
 	pad_x = (ctx->width - (SCREENWIDTH * scaleFactor))/2;
