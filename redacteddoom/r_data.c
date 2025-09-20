@@ -225,6 +225,7 @@ R_DrawColumnInCache
 //
 void R_GenerateComposite (int texnum)
 {
+    //TODO: check this and the above function for 64 bit inconsistencies or something else that could cause the wall issue
     byte*		block;
     texture_t*		texture;
     texpatch_t*		patch;	
