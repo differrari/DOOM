@@ -67,8 +67,6 @@ memzone_t*	mainzone;
 void Z_ClearZone (memzone_t* zone)
 {
     memblock_t*		block;
-
-    if (zone->blocklist.prev > UINT32_MAX) printf("PREV WRONG %x",zone->blocklist.prev);
 	
     // set the entire zone to one free block
     zone->blocklist.next =
@@ -80,8 +78,6 @@ void Z_ClearZone (memzone_t* zone)
     zone->rover = block;
 	
     block->prev = block->next = &zone->blocklist;
-
-    if (block->next > UINT32_MAX) printf("BLOCK WRONG %x",block->next);
     
     // NULL indicates a free block.
     block->user = NULL;	
@@ -102,7 +98,6 @@ void Z_Init (void)
     mainzone = (memzone_t *)I_ZoneBase (&size);
     mainzone->size = size;
 
-    if (mainzone->blocklist.next > UINT32_MAX) printf("INIT 1 WRONG %x",mainzone->blocklist.next);
     // set the entire zone to one free block
     mainzone->blocklist.next =
 	mainzone->blocklist.prev =
@@ -117,8 +112,6 @@ void Z_Init (void)
     block->prev = block->next = &mainzone->blocklist;
 
 
-    if (block->next > UINT32_MAX) printf("INIT 2 WRONG %x",block->next);
-
     // NULL indicates a free block.
     block->user = NULL;
     
@@ -131,14 +124,13 @@ void Z_Init (void)
 //
 void Z_Free (void* ptr)
 {
-    return;
     memblock_t*		block;
     memblock_t*		other;
 	
     block = (memblock_t *) ( (byte *)ptr - sizeof(memblock_t));
 
     if (block->id != ZONEID){
-	    printf ("ERROR Z_Free: freed a pointer without ZONEID");
+	    I_Error ("ERROR Z_Free: freed a pointer without ZONEID");
         return;
     }
 		
@@ -163,7 +155,6 @@ void Z_Free (void* ptr)
 	// merge with previous free block
 	other->size += block->size;
 	other->next = block->next;
-    if (other->next > UINT32_MAX) printf("FREE 1 WRONG %x",other->next);
 	other->next->prev = other;
 
 	if (block == mainzone->rover)
@@ -178,7 +169,6 @@ void Z_Free (void* ptr)
 	// merge the next free block onto the end
 	block->size += other->size;
 	block->next = other->next;
-    if (block->next > UINT32_MAX) printf("FREE 2 WRONG %x",block->next);
 	block->next->prev = block;
 
 	if (other == mainzone->rover)
@@ -276,7 +266,6 @@ Z_Malloc
 	newblock->next->prev = newblock;
 
 	base->next = newblock;
-    if (base->next > UINT32_MAX) printf("WRONG %x",base->next);
 	base->size = size;
     }
 	
@@ -323,11 +312,6 @@ Z_FreeTags
     {
 	// get link before freeing
 	next = block->next;
-
-    if (next > UINT32_MAX){
-        printf("WARNING probable memory corruption: %x",next);
-        return;
-    }
 
 	// free block?
 	if (!block->user)

@@ -52,7 +52,6 @@ thinker_t	thinkercap;
 //
 void P_InitThinkers (void)
 {
-    printf(">>>>> %x",thinkercap);
     thinkercap.prev = thinkercap.next  = &thinkercap;
 }
 

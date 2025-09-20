@@ -305,13 +305,9 @@ void P_LoadThings (int lump)
     mapthing_t*		mt;
     int			numthings;
     boolean		spawn;
-
-    printf("Lump %i",lump);
 	
     data = W_CacheLumpNum (lump,PU_STATIC);
-    printf("Got data %x",data);
     numthings = W_LumpLength (lump) / sizeof(mapthing_t);
-    printf("Got numthings %x",numthings);
 	
     mt = (mapthing_t *)data;
     for (i=0 ; i<numthings ; i++, mt++)
@@ -350,7 +346,7 @@ void P_LoadThings (int lump)
 	P_SpawnMapThing (mt);
     }
 	
-    // Z_Free (data);
+    Z_Free (data);
 }
 
 
