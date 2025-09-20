@@ -603,8 +603,8 @@ void D_QuitNetGame (void)
 {
     int             i, j;
 	
-    if (debugfile)
-	fclose (debugfile);
+    // if (debugfile)
+	// fclose (debugfile);
 		
     if (!netgame || !usergame || consoleplayer == -1 || demoplayback)
 	return;
