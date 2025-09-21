@@ -36,10 +36,16 @@ draw_ctx *ctx;
 uint32_t scaleFactor = 1;
 uint32_t pad_x, pad_y;
 
+uint64_t target_fps = 35;
+uint64_t time;
+uint64_t delta_time;
+uint64_t target_dt;
 
 void I_InitGraphics (void){
 	ctx = (draw_ctx*)malloc(sizeof(draw_ctx));
 	request_draw_ctx(ctx);
+	time = get_time();
+	target_dt = target_fps == 0 ? 0 : (1.f/target_fps)*1000;
 	if (ctx->width < SCREENWIDTH || ctx->height < SCREENHEIGHT){
 		I_Error("Game must run at at least 320x200 resolution");
 	}
@@ -194,6 +200,7 @@ void I_UpdateNoBlit (void){
 }
 
 void I_FinishUpdate (void){
+	
     for (int x = 0; x < SCREENWIDTH; x++) {
         for (int y = 0; y < SCREENHEIGHT; y++) {
             uint32_t color = colors[screens[0][(y * SCREENWIDTH) + x]].color;
@@ -205,6 +212,14 @@ void I_FinishUpdate (void){
             }
         }
     }
+
+	uint64_t new_time = get_time();
+	delta_time = new_time - time;
+	time = new_time;
+	if (delta_time < target_dt){printf("Slowing fown");
+		sleep(target_dt - delta_time);
+		delta_time = target_dt;
+	} else printf("Good %i",target_dt);
     
 	ctx->full_redraw = true;
 	commit_draw_ctx(ctx);
