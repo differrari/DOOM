@@ -344,14 +344,14 @@ enum
 
 menuitem_t OptionsMenu[]=
 {
-    {1,"M_ENDGAM",	HACK_BASE_ADDR + M_EndGame,'e'},
-    {1,"M_MESSG",	HACK_BASE_ADDR + M_ChangeMessages,'m'},
-    {1,"M_DETAIL",	HACK_BASE_ADDR + M_ChangeDetail,'g'},
-    {2,"M_SCRNSZ",	HACK_BASE_ADDR + M_SizeDisplay,'s'},
+    {1,"M_ENDGAM",	M_EndGame,'e'},
+    {1,"M_MESSG",	M_ChangeMessages,'m'},
+    {1,"M_DETAIL",	M_ChangeDetail,'g'},
+    {2,"M_SCRNSZ",	M_SizeDisplay,'s'},
     {-1,"",0},
-    {2,"M_MSENS",	HACK_BASE_ADDR + M_ChangeSensitivity,'m'},
+    {2,"M_MSENS",	M_ChangeSensitivity,'m'},
     {-1,"",0},
-    {1,"M_SVOL",	HACK_BASE_ADDR + M_Sound,'s'}
+    {1,"M_SVOL",	M_Sound,'s'}
 };
 
 menu_t  OptionsDef =
