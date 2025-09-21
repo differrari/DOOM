@@ -1610,7 +1610,7 @@ void WI_loadData(void)
 		    if (wbs->epsd != 1 || j != 8) 
 		    {
 			// animations
-			sprintf(name, "WIA%i%.2d%.2d", wbs->epsd, j, i);  
+			sprintf(name, "WIA%i0%i0%i", wbs->epsd, j, i);  
 			a->p[i] = W_CacheLumpName(name, PU_STATIC);
 		    }
 		    else

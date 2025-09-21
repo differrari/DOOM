@@ -32,7 +32,7 @@
 #ifdef __cplusplus
 typedef bool boolean;
 #else
-typedef bool boolean;
+typedef int boolean;
 #endif
 typedef unsigned char byte;
 #endif
