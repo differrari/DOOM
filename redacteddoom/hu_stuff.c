@@ -737,7 +737,7 @@ boolean HU_Responder(event_t *ev)
 		// static unsigned char buf[20]; // DEBUG
 		HU_queueChatChar(c);
 		
-		// sprintf(buf, "KEY: %d => %d", ev->data1, c);
+		// sprintf(buf, "KEY: %i => %i", ev->data1, c);
 		//      plr->message = buf;
 	    }
 	    if (c == KEY_DOOM_ENTER)

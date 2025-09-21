@@ -789,7 +789,7 @@ void D_DoomMain (void)
     {
 	int     time;
 	time = parse_int_u64(myargv[p+1], 0);
-	printf("Levels will end after %d minute",time);
+	printf("Levels will end after %i minute",time);
 	if (time>1)
 	    printf("s");
 	printf(".\n");

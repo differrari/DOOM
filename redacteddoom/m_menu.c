@@ -344,14 +344,14 @@ enum
 
 menuitem_t OptionsMenu[]=
 {
-    {1,"M_ENDGAM",	HACK_BASE_ADDR + M_EndGame,'e'},
-    {1,"M_MESSG",	HACK_BASE_ADDR + M_ChangeMessages,'m'},
-    {1,"M_DETAIL",	HACK_BASE_ADDR + M_ChangeDetail,'g'},
-    {2,"M_SCRNSZ",	HACK_BASE_ADDR + M_SizeDisplay,'s'},
+    {1,"M_ENDGAM",	M_EndGame,'e'},
+    {1,"M_MESSG",	M_ChangeMessages,'m'},
+    {1,"M_DETAIL",	M_ChangeDetail,'g'},
+    {2,"M_SCRNSZ",	M_SizeDisplay,'s'},
     {-1,"",0},
-    {2,"M_MSENS",	HACK_BASE_ADDR + M_ChangeSensitivity,'m'},
+    {2,"M_MSENS",	M_ChangeSensitivity,'m'},
     {-1,"",0},
-    {1,"M_SVOL",	HACK_BASE_ADDR + M_Sound,'s'}
+    {1,"M_SVOL",	M_Sound,'s'}
 };
 
 menu_t  OptionsDef =
@@ -512,9 +512,9 @@ void M_ReadSaveStrings(void)
     // for (i = 0;i < load_end;i++)
     // {
 	// if (M_CheckParm("-cdrom"))
-	//     sprintf(name,"c:\\doomdata\\"SAVEGAMENAME"%d.dsg",i);
+	//     sprintf(name,"c:\\doomdata\\"SAVEGAMENAME"%i.dsg",i);
 	// else
-	//     sprintf(name,SAVEGAMENAME"%d.dsg",i);
+	//     sprintf(name,SAVEGAMENAME"%i.dsg",i);
 
 	// handle = open (name, O_RDONLY | 0, 0666);
 	// if (handle == -1)
@@ -575,9 +575,9 @@ void M_LoadSelect(int choice)
     char    name[256];
 	
     if (M_CheckParm("-cdrom"))
-	sprintf(name,"c:\\doomdata\\"SAVEGAMENAME"%d.dsg",choice);
+	sprintf(name,"c:\\doomdata\\"SAVEGAMENAME"%i.dsg",choice);
     else
-	sprintf(name,SAVEGAMENAME"%d.dsg",choice);
+	sprintf(name,SAVEGAMENAME"%i.dsg",choice);
     G_LoadGame (name);
     M_ClearMenus ();
 }
