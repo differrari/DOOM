@@ -80,17 +80,12 @@ byte* I_ZoneBase (int*	size)
 //
 int  I_GetTime (void)
 {
-    // struct timeval	tp;
-    // struct timezone	tzp;
-    // int			newtics;
-    // static int		basetime=0;
-  
-    // gettimeofday(&tp, &tzp);
-    // if (!basetime)
-	// basetime = tp.tv_sec;
-    // newtics = (tp.tv_sec-basetime)*TICRATE + tp.tv_usec*TICRATE/1000000;
-    // return newtics;
-    return get_time();
+    static int    basetime = 0;
+    uint32_t newtics = get_time();
+    if (!basetime)
+        basetime = newtics;
+    newtics -= basetime;
+    return (newtics * TICRATE) / 1000;
 }
 
 
