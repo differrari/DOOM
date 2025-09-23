@@ -216,10 +216,10 @@ void I_FinishUpdate (void){
 	uint64_t new_time = get_time();
 	delta_time = new_time - time;
 	time = new_time;
-	if (delta_time < target_dt){printf("Slowing fown");
+	if (delta_time < target_dt){
 		sleep(target_dt - delta_time);
 		delta_time = target_dt;
-	} else printf("Good %i",target_dt);
+	}
     
 	ctx->full_redraw = true;
 	commit_draw_ctx(ctx);
