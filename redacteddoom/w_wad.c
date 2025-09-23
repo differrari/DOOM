@@ -143,7 +143,7 @@ void W_AddFile (char *filename)
 
     printf("Filename %s+",filename);
 
-    string fullpath = string_format("/boot/redos/user/%s",filename);
+    string fullpath = string_format("/resources/%s",filename);
 
     if (fopen(fullpath.data,&handle) != FS_RESULT_SUCCESS)
     {

@@ -6,16 +6,14 @@ LD         := $(ARCH)-ld
 # Path to the [REDACTED] OS folder
 OS_PATH ?= ../os
 
-# Executable name (Due to a filesystem bug, keep the name at max 5 characters and extension at 3)
-EXEC_NAME ?= DOOM.elf
+# Executable name
+EXEC_NAME ?= $(notdir $(CURDIR))
 
 # Path to the system's libshared. Static link only for now
 STDINC ?= $(OS_PATH)/shared/
 STDLIB ?= $(OS_PATH)/shared/libshared.a
 CFLAGS ?= -ffreestanding -nostdlib -std=c99 -I$(STDINC) -O0
-FS_PATH ?= $(OS_PATH)/fs/redos/user
-FS_EXEC_PATH ?= $(FS_PATH)/$(EXEC_NAME)
-
+FS_PATH ?= $(OS_PATH)/fs/redos/user/
 C_SOURCE ?= $(shell find redacteddoom/*.c)
 OBJ ?= $(C_SOURCE:%.c=%.o)
 
@@ -24,20 +22,22 @@ OBJ ?= $(C_SOURCE:%.c=%.o)
 %.o : %.c
 	$(CC) $(CFLAGS) -c -c $< -o $@
 
-$(EXEC_NAME): $(OBJ)
-	$(LD) -T linker.ld -o $(EXEC_NAME) $(OBJ) $(STDLIB)
+$(EXEC_NAME): package $(OBJ)
+	$(LD) -T linker.ld -o $(EXEC_NAME).red/$(EXEC_NAME).elf $(OBJ) $(STDLIB)
 
 all: $(EXEC_NAME)
 
+package:
+	mkdir -p $(EXEC_NAME).red
+	cp -r resources $(EXEC_NAME).red
+
 run: all
-# 	cp DOOM.WAD $(FS_PATH)/DOOM.WAD
-	cp doom1.wad $(FS_PATH)/doom1.wad
-	cp $(EXEC_NAME) $(FS_EXEC_PATH)
+	cp -r $(EXEC_NAME).red $(FS_PATH)
 	(cd $(OS_PATH); ./createfs; ./run_virt)
 
 clean: 	
 	rm $(OBJ)
-	rm $(EXEC_NAME)
+	rm -r $(EXEC_NAME).red
 
 dump: all
-	$(ARCH)-objdump -S $(EXEC_NAME) > dump
+	$(ARCH)-objdump -D $(EXEC_NAME).red/$(EXEC_NAME).elf > dump
