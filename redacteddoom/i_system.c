@@ -114,11 +114,7 @@ void I_Quit (void)
 
 void I_WaitVBL(int count)
 {
-#ifdef SGI
-    sginap(1);                                           
-#else
-    sleep(0);
-#endif
+    // sleep (count * (1000/70) );
 }
 
 void I_BeginRead(void)
@@ -152,7 +148,7 @@ void I_Error (char *error, ...)
     va_start (argptr,error);
     fprintf (stderr, "Error: ");
     char li[256]; 
-    string_format_va_buf(error, li, argptr);
+    string_format_va_buf(error, li, STRING_MAX_LEN, argptr);
     printl(li);
     fprintf (stderr, "\n");
     va_end (argptr);

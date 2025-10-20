@@ -137,42 +137,19 @@ int xlatemod(uint8_t key){
 	}
 }
 
-keypress oldkp = {};
-
 void I_GetEvent(void)
 {
 
     // put event-grabbing stuff in here
     
+	kbd_event r_event = {};
     keypress kp = {};
-    for (int j = 0; j < 10 && read_key(&kp); j++){
-		for (int i = 0; i < 8; i++){
-			char oldkey = (oldkp.modifier & (1 << i));
-			char newkey = (kp.modifier & (1 << i));
-			if (oldkey != newkey){
-				event_t event;
-				event.type = oldkey ? ev_keyup : ev_keydown;
-				event.data1 = xlatemod(oldkey ? oldkey : newkey);
-				D_PostEvent(&event);
-			}
-		}
-        for (int i = 0; i < 6; i++) {
-            if (kp.keys[i] != oldkp.keys[i] && oldkp.keys[i]){
-                event_t event;
-                event.type = ev_keyup;
-                event.data1 = xlatekey(oldkp.keys[i]);
-                D_PostEvent(&event);
-
-                if (!kp.keys[i]) continue;
-            }
-
-            event_t event;
-            event.type = ev_keydown;
-            event.data1 = xlatekey(kp.keys[i]);
-            D_PostEvent(&event);
-        }
-        oldkp = kp;
-    }
+	while (read_event(&r_event)){
+		event_t event;
+		event.type = r_event.type == KEY_PRESS ? ev_keydown : ev_keyup;
+		event.data1 = xlatemod(r_event.key);
+		D_PostEvent(&event);
+	}
 }
 
 void I_StartFrame(void){
