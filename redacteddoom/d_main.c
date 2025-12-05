@@ -532,7 +532,7 @@ void D_AddFile (char *file)
     for (numwadfiles = 0 ; wadfiles[numwadfiles] ; numwadfiles++)
 	;
 
-    newfile = (char*)malloc (strlen(file, 0)+1);
+    newfile = (char*)malloc (strlen(file)+1);
     strcpy (newfile, file);
 	
     wadfiles[numwadfiles] = newfile;

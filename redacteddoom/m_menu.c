@@ -642,9 +642,9 @@ void M_SaveSelect(int choice)
     
     saveSlot = choice;
     strcpy(saveOldString,savegamestrings[choice]);
-    if (!strcmp(savegamestrings[choice],EMPTYSTRING, false))
+    if (!strcmp(savegamestrings[choice],EMPTYSTRING))
 	savegamestrings[choice][0] = 0;
-    saveCharIndex = strlen(savegamestrings[choice],0);
+    saveCharIndex = strlen(savegamestrings[choice]);
 }
 
 //
@@ -1252,7 +1252,7 @@ int M_StringWidth(char* string)
     int             w = 0;
     int             c;
 	
-    for (i = 0;i < strlen(string,0);i++)
+    for (i = 0;i < strlen(string);i++)
     {
 	c = toupper(string[i]) - HU_FONTSTART;
 	if (c < 0 || c >= HU_FONTSIZE)
@@ -1276,7 +1276,7 @@ int M_StringHeight(char* string)
     int             height = SHORT(hu_font[0]->height);
 	
     h = height;
-    for (i = 0;i < strlen(string,0);i++)
+    for (i = 0;i < strlen(string);i++)
 	if (string[i] == '\n')
 	    h += height;
 		
@@ -1750,7 +1750,7 @@ void M_Drawer (void)
 	y = 100 - M_StringHeight(messageString)/2;
 	while(*(messageString+start))
 	{
-	    for (i = 0;i < strlen(messageString+start,0);i++)
+	    for (i = 0;i < strlen(messageString+start);i++)
 		if (*(messageString+start+i) == '\n')
 		{
 		    memset(string,0,40);
@@ -1759,7 +1759,7 @@ void M_Drawer (void)
 		    break;
 		}
 				
-	    if (i == strlen(messageString+start,0))
+	    if (i == strlen(messageString+start))
 	    {
 		strcpy(string,messageString+start);
 		start += i;

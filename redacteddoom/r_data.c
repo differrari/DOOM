@@ -701,7 +701,7 @@ int	R_CheckTextureNumForName (char *name)
 	return 0;
 		
     for (i=0 ; i<numtextures ; i++)
-	if (!strncmp (textures[i]->name, name, true, 8) )
+	if (!strncmp_case (textures[i]->name, name, true, 8) )
 	    return i;
 		
     return -1;

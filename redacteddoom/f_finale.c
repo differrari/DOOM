@@ -238,7 +238,7 @@ void F_Ticker (void)
     if ( gamemode == commercial)
 	return;
 		
-    if (!finalestage && finalecount>strlen (finaletext,0)*TEXTSPEED + TEXTWAIT)
+    if (!finalestage && finalecount>strlen (finaletext)*TEXTSPEED + TEXTWAIT)
     {
 	finalecount = 0;
 	finalestage = 1;

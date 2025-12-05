@@ -308,7 +308,7 @@ void M_SaveDefaults (void)
     // int		v;
     // FILE*	f;
 	
-    // f = fopen (defaultfile, "w");
+    // f = open (defaultfile, "w");
     // if (!f)
 	// return; // can't write the file, but don't complain
 		
@@ -361,7 +361,7 @@ void M_LoadDefaults (void)
 	defaultfile = basedefault;
     
     // read the file in, overriding any set defaults
-    // f = fopen (defaultfile, "r");
+    // f = open (defaultfile, "r");
     // if (f)
     // {
 	// while (!feof(f))
@@ -373,7 +373,7 @@ void M_LoadDefaults (void)
 	// 	{
 	// 	    // get a string default
 	// 	    isstring = true;
-	// 	    len = strlen(strparm,0);
+	// 	    len = strlen(strparm);
 	// 	    newstring = (char *) malloc(len);
 	// 	    strparm[len-1] = 0;
 	// 	    strcpy(newstring, strparm+1);
@@ -383,7 +383,7 @@ void M_LoadDefaults (void)
 	// 	else
 	// 	    sscanf(strparm, "%i", &parm);
 	// 	for (i=0 ; i<numdefaults ; i++)
-	// 	    if (!strcmp(def, defaults[i].name, false))
+	// 	    if (!strcmp(def, defaults[i].name))
 	// 	    {
 	// 		if (!isstring)
 	// 		    *defaults[i].location = parm;

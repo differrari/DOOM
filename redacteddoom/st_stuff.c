@@ -256,7 +256,7 @@ rcsid[] = "$Id: st_stuff.c,v 1.6 1997/02/03 22:45:13 b1 Exp $";
 #define ST_OUTHEIGHT		1
 
 #define ST_MAPWIDTH	\
-    (strlen(mapnames[(gameepisode-1)*9+(gamemap-1)],0))
+    (strlen(mapnames[(gameepisode-1)*9+(gamemap-1)]))
 
 #define ST_MAPTITLEX \
     (SCREENWIDTH - ST_MAPWIDTH * ST_CHATFONTWIDTH)

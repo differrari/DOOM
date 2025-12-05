@@ -44,7 +44,7 @@ int M_CheckParm (char *check)
 
     for (i = 1;i<myargc;i++)
     {
-	if ( !strcmp(check, myargv[i], true) )
+	if ( !strcmp_case(check, myargv[i], true) )
 	    return i;
     }
 

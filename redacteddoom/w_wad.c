@@ -71,7 +71,7 @@ ExtractFileBase
     char*	src;
     int		length;
 
-    src = path + strlen(path,0) - 1;
+    src = path + strlen(path) - 1;
     
     // back up until a \ or the start
     while (src != path
@@ -145,19 +145,19 @@ void W_AddFile (char *filename)
 
     string fullpath = string_format("/resources/%s",filename);
 
-    if (fopen(fullpath.data,&handle) != FS_RESULT_SUCCESS)
+    if (open(fullpath.data,&handle) != FS_RESULT_SUCCESS)
     {
         printf (" couldn't open %s\n",filename);
-        free(fullpath.data,fullpath.mem_length);
+        free_sized(fullpath.data,fullpath.mem_length);
         return;
     }
 
-    free(fullpath.data,fullpath.mem_length);
+    free_sized(fullpath.data,fullpath.mem_length);
 
     printf (" adding %s\n",filename);
     startlump = numlumps;
 	
-    if (strcmp (filename+strlen(filename,0)-3 , "wad", true) )
+    if (strcmp_case(filename+strlen(filename)-3 , "wad", true) )
     {
 	// single lump file
 	fileinfo = &singleinfo;
@@ -169,11 +169,11 @@ void W_AddFile (char *filename)
     else 
     {
 	// WAD file
-	fread (&handle, (char*)&header, sizeof(header));
-	if (strncmp(header.identification, "IWAD", true, 4))
+	read (&handle, (char*)&header, sizeof(header));
+	if (strncmp_case(header.identification, "IWAD", true, 4))
 	{
 	    // Homebrew levels?
-	    if (strncmp(header.identification, "PWAD", true, 4))
+	    if (strncmp_case(header.identification, "PWAD", true, 4))
 	    {
 		    I_Error ("Wad file %s doesn't have IWAD or PWAD id\n", filename);
 	    }
@@ -187,13 +187,13 @@ void W_AddFile (char *filename)
 	fileinfo = (filelump_t*)alloca (length);
 	seek (&handle, header.infotableofs, SEEK_ABSOLUTE);
     printf("Cursor %i",handle.cursor);
-	fread (&handle, (char*)fileinfo, length);
+	read (&handle, (char*)fileinfo, length);
 	numlumps += header.numlumps;
     }
 
     
     // Fill in lumpinfo
-    lumpinfo = (lumpinfo_t*)realloc ((uintptr_t)lumpinfo, sizeof(*lumpinfo), numlumps*sizeof(lumpinfo_t));
+    lumpinfo = (lumpinfo_t*)realloc_sized(lumpinfo, sizeof(*lumpinfo), numlumps*sizeof(lumpinfo_t));
 
     if (!lumpinfo)
 	I_Error ("Couldn't realloc lumpinfo");
@@ -437,14 +437,14 @@ W_ReadLump
     if (l->handle.id == 0)
     {
 	// reloadable file, so use open / read / close
-	if ( (fopen (reloadname,&handle)) != FS_RESULT_SUCCESS)
+	if ( (open (reloadname,&handle)) != FS_RESULT_SUCCESS)
 	    I_Error ("W_ReadLump: couldn't open %s",reloadname);
     }
     else
 	    handle = l->handle;
 		
     seek (&handle, l->position, SEEK_ABSOLUTE);
-    c = fread (&handle, dest, l->size);
+    c = read (&handle, dest, l->size);
 
     if (c < l->size)
 	I_Error ("W_ReadLump: only read %i of %i on lump %i",
@@ -540,7 +540,7 @@ void W_Profile (void)
     // }
     // profilecount++;
 	
-    // f = fopen ("waddump.txt","w");
+    // f = open ("waddump.txt","w");
     // name[8] = 0;
 
     // for (i=0 ; i<numlumps ; i++)

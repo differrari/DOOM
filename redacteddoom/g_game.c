@@ -1214,7 +1214,7 @@ void G_DoLoadGame (void)
     // skip the description field 
     memset (vcheck,0,sizeof(vcheck)); 
     sprintf (vcheck,"version %i",VERSION); 
-    if (strcmp (save_p, vcheck, false)) 
+    if (strcmp (save_p, vcheck)) 
 	return;				// bad version 
     save_p += VERSIONSIZE; 
 			 
