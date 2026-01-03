@@ -30,6 +30,7 @@ all: $(EXEC_NAME)
 package:
 	mkdir -p resources
 	mkdir -p $(EXEC_NAME).red
+	cp -r package.info $(EXEC_NAME).red/package.info
 	cp -r resources $(EXEC_NAME).red
 
 run: all

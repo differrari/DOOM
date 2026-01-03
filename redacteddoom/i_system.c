@@ -114,7 +114,7 @@ void I_Quit (void)
 
 void I_WaitVBL(int count)
 {
-    sleep (count * (1000/70) );//TODO: Maybe the 1000/70 conversion is sligtly off?
+    msleep (count * (1000/70) );//TODO: Maybe the 1000/70 conversion is sligtly off?
 }
 
 void I_BeginRead(void)

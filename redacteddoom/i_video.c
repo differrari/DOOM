@@ -194,7 +194,7 @@ void I_FinishUpdate (void){
 	delta_time = new_time - time;
 	time = new_time;
 	if (delta_time < target_dt){
-		sleep(target_dt - delta_time);
+		msleep(target_dt - delta_time);
 		delta_time = target_dt;
 	}
     

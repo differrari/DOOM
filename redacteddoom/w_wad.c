@@ -145,7 +145,7 @@ void W_AddFile (char *filename)
 
     string fullpath = string_format("/resources/%s",filename);
 
-    if (open(fullpath.data,&handle) != FS_RESULT_SUCCESS)
+    if (openf(fullpath.data,&handle) != FS_RESULT_SUCCESS)
     {
         printf (" couldn't open %s\n",filename);
         free_sized(fullpath.data,fullpath.mem_length);
@@ -169,13 +169,13 @@ void W_AddFile (char *filename)
     else 
     {
 	// WAD file
-	read (&handle, (char*)&header, sizeof(header));
+	readf(&handle, (char*)&header, sizeof(header));
 	if (strncmp_case(header.identification, "IWAD", true, 4))
 	{
 	    // Homebrew levels?
 	    if (strncmp_case(header.identification, "PWAD", true, 4))
 	    {
-		    I_Error ("Wad file %s doesn't have IWAD or PWAD id\n", filename);
+		    I_Error ("Wad file %s doesn't have IWAD or PWAD id %s", filename, header.identification);
 	    }
 	    
 	    // ???modifiedgame = true;		
@@ -187,7 +187,7 @@ void W_AddFile (char *filename)
 	fileinfo = (filelump_t*)alloca (length);
 	seek (&handle, header.infotableofs, SEEK_ABSOLUTE);
     printf("Cursor %i",handle.cursor);
-	read (&handle, (char*)fileinfo, length);
+	readf(&handle, (char*)fileinfo, length);
 	numlumps += header.numlumps;
     }
 
@@ -437,14 +437,14 @@ W_ReadLump
     if (l->handle.id == 0)
     {
 	// reloadable file, so use open / read / close
-	if ( (open (reloadname,&handle)) != FS_RESULT_SUCCESS)
+	if ( (openf(reloadname,&handle)) != FS_RESULT_SUCCESS)
 	    I_Error ("W_ReadLump: couldn't open %s",reloadname);
     }
     else
 	    handle = l->handle;
 		
     seek (&handle, l->position, SEEK_ABSOLUTE);
-    c = read (&handle, dest, l->size);
+    c = readf(&handle, dest, l->size);
 
     if (c < l->size)
 	I_Error ("W_ReadLump: only read %i of %i on lump %i",

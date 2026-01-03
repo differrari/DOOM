@@ -161,12 +161,12 @@ void openwad(char* wadname)
     filelump_t*	filetable;
 
     // open and read the wadfile header
-    wadfile = open(wadname, O_RDONLY);
+    wadfile = openf(wadname, O_RDONLY);
 
     if (wadfile < 0)
 	derror("Could not open wadfile");
 
-    read(wadfile, &header, sizeof header);
+    readf(wadfile, &header, sizeof header);
 
     if (strncmp(header.identification, "IWAD", 4))
 	derror("wadfile has weirdo header");
@@ -180,7 +180,7 @@ void openwad(char* wadname)
 
     // get the lumpinfo table
     lseek(wadfile, tableoffset, SEEK_SET);
-    read(wadfile, filetable, tablefilelength);
+    readf(wadfile, filetable, tablefilelength);
 
     // process the table to make the endianness right and shift it down
     for (i=0 ; i<numlumps ; i++)
@@ -219,7 +219,7 @@ loadlump
     {
 	lump = (void *) malloc(lumpinfo[i].size);
 	lseek(lumpinfo[i].handle, lumpinfo[i].filepos, SEEK_SET);
-	read(lumpinfo[i].handle, lump, lumpinfo[i].size);
+	readf(lumpinfo[i].handle, lump, lumpinfo[i].size);
 	*size = lumpinfo[i].size;
     }
 
